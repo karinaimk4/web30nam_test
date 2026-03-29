@@ -1,0 +1,612 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lịch sử & Tổ chức – Triển lãm 30 Năm</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Newsreader:ital,opsz,wght@0,6..72,400..700;1,6..72,400..700&display=swap" rel="stylesheet">
+
+    <script src="https://unpkg.com/@phosphor-icons/web"></script>
+
+    <link rel="stylesheet" href="shared.css">
+
+    <style>
+        /* ================== NAVBAR WRAPPER ================== */
+        .navbar-wrapper {
+            position: sticky; top: 0; z-index: 1000;
+            background: rgba(255,255,255,0.92); backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px);
+            border-bottom: 1px solid #e2e8f0; transition: box-shadow 0.35s ease;
+        }
+        .navbar-wrapper.scrolled { box-shadow: 0 4px 16px rgba(0,0,0,0.10); }
+
+        /* ================== PAGE HERO ================== */
+        .page-hero {
+            background: linear-gradient(135deg, #0f172a 0%, #1e3a8a 100%);
+            padding: 70px 20px; text-align: center; color: white; border-radius: 16px; margin-top: 30px;
+        }
+        .hero-overhead { font-size: 0.8rem; text-transform: uppercase; letter-spacing: 2px; color: #94a3b8; font-weight: 600; margin-bottom: 15px; }
+        .page-hero h1 { font-family: var(--font-serif); font-size: 3rem; font-style: italic; margin-bottom: 20px; font-weight: 500; }
+        .page-hero p { font-size: 1.05rem; opacity: 0.9; max-width: 600px; margin: 0 auto; line-height: 1.6; }
+
+        /* ================== HORIZONTAL TIMELINE ================== */
+        .section-header { text-align: center; margin-bottom: 40px; }
+        .section-header h3 { font-family: var(--font-serif); font-size: 2.2rem; color: var(--primary-blue); font-style: italic; font-weight: 500; }
+        
+        .timeline-horizontal-container { overflow-x: auto; padding-bottom: 20px; margin-bottom: 40px; scroll-behavior: smooth; }
+        .timeline-horizontal-container::-webkit-scrollbar { height: 6px; }
+        .timeline-horizontal-container::-webkit-scrollbar-track { background: #f1f5f9; border-radius: 10px; }
+        .timeline-horizontal-container::-webkit-scrollbar-thumb { background: #cbd5e1; border-radius: 10px; }
+        .timeline-horizontal-container::-webkit-scrollbar-thumb:hover { background: #94a3b8; }
+
+        .timeline-horizontal { position: relative; display: flex; align-items: flex-start; justify-content: space-between; padding-top: 30px; }
+        .timeline-line-h { position: absolute; top: 54px; left: 0; right: 0; height: 3px; background-color: #e2e8f0; z-index: 0; }
+
+        .timeline-node-wrap { position: relative; z-index: 1; display: flex; flex-direction: column; align-items: center; width: 120px; cursor: pointer; }
+        .timeline-box { width: 50px; height: 50px; background: white; border: 3px solid #cbd5e1; border-radius: 12px; display: flex; align-items: center; justify-content: center; font-weight: 700; color: #64748b; font-size: 1.2rem; transition: all 0.3s ease; box-shadow: 0 4px 10px rgba(0,0,0,0.05); }
+        .timeline-info { text-align: center; margin-top: 15px; transition: all 0.3s ease; opacity: 0.7; }
+        .timeline-year { font-weight: 700; color: var(--text-heading); font-size: 1rem; margin-bottom: 4px; }
+        .timeline-desc { font-size: 0.8rem; color: #64748b; font-weight: 500; }
+
+        /* Trạng thái Hover / Active / Past của Timeline */
+        .timeline-node-wrap:hover .timeline-box { border-color: var(--accent-blue); color: var(--accent-blue); transform: translateY(-3px); }
+        .timeline-node-wrap:hover .timeline-info { opacity: 1; transform: translateY(-3px); }
+        
+        .timeline-node-wrap.active .timeline-box { background: var(--primary-blue); border-color: var(--primary-blue); color: white; transform: scale(1.15); box-shadow: 0 8px 20px rgba(30, 58, 138, 0.2); }
+        .timeline-node-wrap.active .timeline-info { opacity: 1; transform: scale(1.05); }
+        .timeline-node-wrap.active .timeline-year { color: var(--primary-blue); }
+        
+        .timeline-node-wrap.past .timeline-box { background: var(--bg-gray); border-color: var(--accent-blue); color: var(--accent-blue); }
+
+        /* ================== TERM PANELS ================== */
+        .term-panel { display: none; background: white; border: 1px solid #e2e8f0; border-radius: 20px; padding: 40px; box-shadow: var(--shadow-md); animation: fadeUp 0.4s cubic-bezier(0.4,0,0.2,1); }
+        .term-panel.active { display: block; }
+        @keyframes fadeUp {
+            from { opacity: 0; transform: translateY(15px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .term-header { margin-bottom: 30px; text-align: center; border-bottom: 1px dashed #cbd5e1; padding-bottom: 20px; }
+        .term-header h2 { font-family: var(--font-serif); font-size: 2.2rem; color: var(--primary-blue); margin-bottom: 10px; font-weight: 600; }
+        .term-header p { color: var(--accent-red); font-weight: 600; font-size: 1.1rem; }
+
+        .features-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 20px; }
+        .feature-card { background: var(--bg-light); border: 1px solid #e2e8f0; border-radius: 12px; padding: 25px 20px; transition: all 0.3s ease; }
+        .feature-card:hover { background: white; border-color: var(--accent-blue); transform: translateY(-5px); box-shadow: 0 10px 25px rgba(0,0,0,0.06); }
+        .feature-icon { font-size: 2rem; color: var(--primary-blue); margin-bottom: 15px; }
+        .feature-card h4 { font-size: 1.05rem; color: var(--text-heading); margin-bottom: 12px; font-weight: 600; }
+        .feature-card p, .feature-card ul { font-size: 0.9rem; color: #475569; line-height: 1.6; }
+        .feature-card ul { padding-left: 20px; margin: 0; }
+        .feature-card ul li { margin-bottom: 6px; }
+
+        /* ================== CHUẨN HÓA SƠ ĐỒ CSS (ORG CHART) 2 CỘT ĐOÀN/HỘI ================== */
+        .org-chart-section { margin-top: 80px; padding-top: 60px; border-top: 2px dashed #e2e8f0; margin-bottom: 60px; }
+        
+        .dual-org-charts { display: flex; gap: 40px; width: 100%; justify-content: center; align-items: flex-start; margin-top: 40px; margin-bottom: 50px; }
+        .org-chart-column { flex: 1; display: flex; flex-direction: column; align-items: center; gap: 15px; }
+
+        /* Node chung */
+        .org-node { display: flex; justify-content: center; align-items: center; text-align: center; font-weight: 700; font-size: 0.85rem; text-transform: uppercase; padding: 14px 15px; border-radius: 4px; box-shadow: 0 4px 10px rgba(0,0,0,0.05); transition: transform 0.3s; min-height: 55px; width: 100%; letter-spacing: 0.5px; }
+        .org-node:hover { transform: translateY(-3px); box-shadow: 0 8px 20px rgba(0,0,0,0.1); }
+
+        /* Phân cấp */
+        .org-level-1 { width: 60%; margin-bottom: 10px; }
+        .org-level-1 .org-node { font-size: 1.1rem; padding: 16px; color: white; }
+
+        .org-level-2 { display: flex; width: 100%; justify-content: space-between; gap: 15px; margin-bottom: 15px; }
+        .org-level-2 .org-node { color: white; }
+
+        .org-level-3 { display: flex; flex-direction: column; width: 100%; gap: 10px; }
+        .org-level-3 .org-node { border: 2px solid; background: white; }
+
+        /* Màu hệ thống ĐOÀN (Cam/Đỏ) */
+        .doan-col .org-level-1 .org-node, .doan-col .org-level-2 .org-node { background-color: #d97706; }
+        .doan-col .org-level-3 .org-node { border-color: #d97706; color: #d97706; }
+
+        /* Màu hệ thống HỘI (Xanh navy) */
+        .hoi-col .org-level-1 .org-node, .hoi-col .org-level-2 .org-node { background-color: #0f172a; }
+        .hoi-col .org-level-3 .org-node { border-color: #0f172a; color: #0f172a; }
+
+
+        /* Departments Cards under Diagram */
+        .dept-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; margin-top: 20px; }
+        .dept-card { background: white; border: 1px solid #e2e8f0; border-radius: 12px; padding: 25px; transition: all 0.3s ease; }
+        .dept-card:hover { border-color: var(--accent-blue); box-shadow: 0 10px 25px rgba(0,0,0,0.08); transform: translateY(-4px); }
+        .dept-card i { font-size: 2rem; color: var(--primary-blue); margin-bottom: 15px; display: inline-block; padding: 10px; background: var(--bg-light); border-radius: 12px; }
+        .dept-card h4 { font-size: 1rem; color: var(--primary-blue); margin-bottom: 10px; font-weight: 700; text-transform: uppercase;}
+        .dept-card p { font-size: 0.9rem; color: #475569; line-height: 1.6; }
+
+        /* ================== RESPONSIVE ================== */
+        @media (max-width: 992px) {
+            .features-grid { grid-template-columns: repeat(2, 1fr); }
+            .dept-grid { grid-template-columns: repeat(2, 1fr); }
+            .dual-org-charts { gap: 20px; }
+            .two-cols-wrapper { grid-template-columns: 1fr !important; }
+        }
+        @media (max-width: 768px) {
+            .features-grid { grid-template-columns: 1fr; }
+            .dept-grid { grid-template-columns: 1fr; }
+            .term-panel { padding: 20px; }
+            .dual-org-charts { flex-direction: column; gap: 50px; }
+            .org-level-1 { width: 80%; }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="navbar-wrapper" id="navbar-wrapper">
+        <div class="container">
+            <nav class="navbar" style="position:static; backdrop-filter:none; background:transparent; box-shadow:none; border-bottom:none;">
+                <div class="nav-brand">Triển lãm 30 Năm</div>
+                <button class="nav-toggle" aria-label="Menu" aria-expanded="false">
+                    <span></span><span></span><span></span>
+                </button>
+                <ul class="nav-links">
+                    <li><a href="index.html">Trang chủ</a></li>
+                    <li><a href="lichsu.html" class="active">Lịch sử</a></li>
+                    <li><a href="cocau.html">Cơ cấu</a></li>
+                    <li><a href="phongtrao.html">Phong trào</a></li>
+                    <li><a href="thanhtich.html">Thành tích</a></li>
+                    <li><a href="gockyuc.html">Góc ký ức</a></li>
+                </ul>
+            </nav>
+        </div>
+    </div>
+
+    <div class="container">
+        <header class="page-hero reveal">
+            <div class="hero-overhead">BIÊN NIÊN SỬ</div>
+            <h1>Lịch sử hình thành & Cơ cấu Tổ chức</h1>
+            <p>Khám phá chặng đường 30 năm phát triển và bộ máy hoạt động hiện tại của Đoàn Thanh niên Cộng sản Hồ Chí Minh Trường Đại học Khoa học Xã hội và Nhân văn, ĐHQG-HCM.</p>
+        </header>
+    </div>
+
+    <main>
+        <div class="container">
+            <div class="section-header reveal" style="margin-top:50px;">
+                <h3>Các nhiệm kỳ Đại hội</h3>
+            </div>
+
+            <div class="timeline-horizontal-container reveal">
+                <div class="timeline-horizontal" style="min-width: 2200px;">
+                    <div class="timeline-line-h"></div>
+
+                    <div class="timeline-node-wrap active" data-target="term-1996">
+                        <div class="timeline-box">0</div>
+                        <div class="timeline-info">
+                            <div class="timeline-year">96-97</div>
+                            <div class="timeline-desc">Thành lập</div>
+                        </div>
+                    </div>
+                    <div class="timeline-node-wrap" data-target="term-1">
+                        <div class="timeline-box">I</div>
+                        <div class="timeline-info">
+                            <div class="timeline-year">97-99</div>
+                            <div class="timeline-desc">Nhiệm kỳ I</div>
+                        </div>
+                    </div>
+                    <div class="timeline-node-wrap" data-target="term-2">
+                        <div class="timeline-box">II</div>
+                        <div class="timeline-info">
+                            <div class="timeline-year">00-02</div>
+                            <div class="timeline-desc">Nhiệm kỳ II</div>
+                        </div>
+                    </div>
+                    <div class="timeline-node-wrap" data-target="term-3">
+                        <div class="timeline-box">III</div>
+                        <div class="timeline-info">
+                            <div class="timeline-year">02-04</div>
+                            <div class="timeline-desc">Nhiệm kỳ III</div>
+                        </div>
+                    </div>
+                    <div class="timeline-node-wrap" data-target="term-4">
+                        <div class="timeline-box">IV</div>
+                        <div class="timeline-info">
+                            <div class="timeline-year">03-07</div>
+                            <div class="timeline-desc">Nhiệm kỳ IV</div>
+                        </div>
+                    </div>
+                    <div class="timeline-node-wrap" data-target="term-5">
+                        <div class="timeline-box">V</div>
+                        <div class="timeline-info">
+                            <div class="timeline-year">07-10</div>
+                            <div class="timeline-desc">Nhiệm kỳ V</div>
+                        </div>
+                    </div>
+                    <div class="timeline-node-wrap" data-target="term-6">
+                        <div class="timeline-box">VI</div>
+                        <div class="timeline-info">
+                            <div class="timeline-year">10-12</div>
+                            <div class="timeline-desc">Nhiệm kỳ VI</div>
+                        </div>
+                    </div>
+                    <div class="timeline-node-wrap" data-target="term-7">
+                        <div class="timeline-box">VII</div>
+                        <div class="timeline-info">
+                            <div class="timeline-year">12-15</div>
+                            <div class="timeline-desc">Nhiệm kỳ VII</div>
+                        </div>
+                    </div>
+                    <div class="timeline-node-wrap" data-target="term-8">
+                        <div class="timeline-box">VIII</div>
+                        <div class="timeline-info">
+                            <div class="timeline-year">15-17</div>
+                            <div class="timeline-desc">Nhiệm kỳ VIII</div>
+                        </div>
+                    </div>
+                    <div class="timeline-node-wrap" data-target="term-9">
+                        <div class="timeline-box">IX</div>
+                        <div class="timeline-info">
+                            <div class="timeline-year">17-19</div>
+                            <div class="timeline-desc">Nhiệm kỳ IX</div>
+                        </div>
+                    </div>
+                    <div class="timeline-node-wrap" data-target="term-10">
+                        <div class="timeline-box">X</div>
+                        <div class="timeline-info">
+                            <div class="timeline-year">19-22</div>
+                            <div class="timeline-desc">Nhiệm kỳ X</div>
+                        </div>
+                    </div>
+                    <div class="timeline-node-wrap" data-target="term-11">
+                        <div class="timeline-box">XI</div>
+                        <div class="timeline-info">
+                            <div class="timeline-year">22-24</div>
+                            <div class="timeline-desc">Nhiệm kỳ XI</div>
+                        </div>
+                    </div>
+                    <div class="timeline-node-wrap" data-target="term-12">
+                        <div class="timeline-box">XII</div>
+                        <div class="timeline-info">
+                            <div class="timeline-year">24-27</div>
+                            <div class="timeline-desc">Nhiệm kỳ XII</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div id="term-1996" class="term-panel active">
+                <div class="term-header"><h2>Giai đoạn 1996 – 1997</h2><p>Chủ đề: "Khởi lập tổ chức - Định hình bản sắc"</p></div>
+                <div class="features-grid">
+                    <div class="feature-card"><i class="ph ph-files feature-icon"></i><h4>Bối cảnh</h4><p>Trường Đại học Khoa học Xã hội và Nhân văn chính thức được thành lập trên cơ sở tách ra từ ĐH Tổng hợp TP.HCM.</p></div>
+                    <div class="feature-card"><i class="ph ph-flag feature-icon"></i><h4>Nhiệm vụ trọng tâm</h4><ul><li>Kiện toàn bộ máy Đoàn lâm thời</li><li>Định hướng tư tưởng sinh viên</li><li>Bắt nhịp phong trào Thành phố</li></ul></div>
+                    <div class="feature-card"><i class="ph ph-wrench feature-icon"></i><h4>Công trình thanh niên</h4><p>Xây dựng quy chế hoạt động và hệ thống văn bản quản lý Đoàn viên sinh viên thời kỳ đầu.</p></div>
+                    <div class="feature-card"><i class="ph ph-lightbulb feature-icon"></i><h4>Mô hình giải pháp</h4><p>Tổ chức các diễn đàn sinh hoạt chính trị định kỳ, gắn kết sinh viên khối ngành khoa học xã hội.</p></div>
+                </div>
+            </div>
+            <div id="term-1" class="term-panel">
+                <div class="term-header"><h2>Nhiệm kỳ I (1997 – 1999)</h2><p>Chủ đề: "Đặt nền móng – Xung kích tình nguyện"</p></div>
+                <div class="features-grid">
+                    <div class="feature-card"><i class="ph ph-files feature-icon"></i><h4>Bối cảnh</h4><p>Đại hội Đại biểu Đoàn TNCS Hồ Chí Minh Trường lần thứ I chính thức diễn ra, bầu ra Ban chấp hành chính thức.</p></div>
+                    <div class="feature-card"><i class="ph ph-flag feature-icon"></i><h4>Nhiệm vụ trọng tâm</h4><ul><li>Phát triển chiến dịch Mùa hè xanh</li><li>Xây dựng phong trào văn thể mỹ</li></ul></div>
+                    <div class="feature-card"><i class="ph ph-wrench feature-icon"></i><h4>Công trình thanh niên</h4><p>Đẩy mạnh chiến dịch "Ánh sáng văn hóa hè", mang con chữ đến thanh niên nông thôn ngoại thành.</p></div>
+                    <div class="feature-card"><i class="ph ph-lightbulb feature-icon"></i><h4>Mô hình giải pháp</h4><p>Khuyến khích thành lập các câu lạc bộ, đội nhóm học thuật và năng khiếu đầu tiên của nhà trường.</p></div>
+                </div>
+            </div>
+            <div id="term-2" class="term-panel">
+                <div class="term-header"><h2>Nhiệm kỳ II (2000 – 2002)</h2><p>Chủ đề: "Trí tuệ trẻ – Tiếp bước truyền thống"</p></div>
+                <div class="features-grid">
+                    <div class="feature-card"><i class="ph ph-files feature-icon"></i><h4>Bối cảnh</h4><p>Bước sang thiên niên kỷ mới, sinh viên Nhân văn thể hiện khát vọng tri thức và trách nhiệm xã hội cao độ.</p></div>
+                    <div class="feature-card"><i class="ph ph-flag feature-icon"></i><h4>Nhiệm vụ trọng tâm</h4><ul><li>Đẩy mạnh NCKH Sinh viên</li><li>Đồng hành cùng tân sinh viên</li></ul></div>
+                    <div class="feature-card"><i class="ph ph-wrench feature-icon"></i><h4>Công trình thanh niên</h4><p>Mở rộng quy mô đội hình Tiếp sức mùa thi, hỗ trợ hàng ngàn thí sinh tỉnh lẻ lên thành phố.</p></div>
+                    <div class="feature-card"><i class="ph ph-lightbulb feature-icon"></i><h4>Mô hình giải pháp</h4><p>Tổ chức các hội thi chuyên môn học thuật cấp khoa, tạo tiền đề cho Giải thưởng Eurêka.</p></div>
+                </div>
+            </div>
+            <div id="term-3" class="term-panel">
+                <div class="term-header"><h2>Nhiệm kỳ III (2002 – 2004)</h2><p>Chủ đề: "Sinh viên Nhân văn – Sáng tạo và Hội nhập"</p></div>
+                <div class="features-grid">
+                    <div class="feature-card"><i class="ph ph-files feature-icon"></i><h4>Bối cảnh</h4><p>Phong trào sinh viên Thành phố đổi mới mạnh mẽ, đòi hỏi nhiều mô hình hoạt động thiết thực, sát với nhu cầu sinh viên.</p></div>
+                    <div class="feature-card"><i class="ph ph-flag feature-icon"></i><h4>Nhiệm vụ trọng tâm</h4><ul><li>Bồi dưỡng ngoại ngữ, tin học</li><li>Tăng cường giáo dục lý luận</li></ul></div>
+                    <div class="feature-card"><i class="ph ph-wrench feature-icon"></i><h4>Công trình thanh niên</h4><p>Gây quỹ và xây tặng "Nhà tình thương", "Nhà tình bạn" cho đoàn viên có hoàn cảnh khó khăn.</p></div>
+                    <div class="feature-card"><i class="ph ph-lightbulb feature-icon"></i><h4>Mô hình giải pháp</h4><p>Đa dạng hóa các đội hình chuyên môn trong chiến dịch Mùa Hè Xanh (Đội hình Luật, Tâm lý học).</p></div>
+                </div>
+            </div>
+            <div id="term-4" class="term-panel">
+                <div class="term-header"><h2>Nhiệm kỳ IV (2003 – 2007)</h2><p>Chủ đề: "Dấu ấn Tình nguyện – Bứt phá Phong trào"</p></div>
+                <div class="features-grid">
+                    <div class="feature-card"><i class="ph ph-files feature-icon"></i><h4>Bối cảnh</h4><p>Sự chuyển mình mạnh mẽ trong đào tạo Đại học. Giai đoạn này ghi nhận một dấu son lịch sử: Sự ra đời của Xuân Tình Nguyện (2005).</p></div>
+                    <div class="feature-card"><i class="ph ph-flag feature-icon"></i><h4>Nhiệm vụ trọng tâm</h4><ul><li>Khởi xướng phong trào mới</li><li>Củng cố tổ chức Đoàn cơ sở</li></ul></div>
+                    <div class="feature-card"><i class="ph ph-wrench feature-icon"></i><h4>Công trình thanh niên</h4><p>Khởi xướng thành công chiến dịch Xuân Tình Nguyện - sau này trở thành chiến dịch cấp Thành.</p></div>
+                    <div class="feature-card"><i class="ph ph-lightbulb feature-icon"></i><h4>Mô hình giải pháp</h4><p>Xây dựng mô hình hoạt động Đoàn gắn với đào tạo tín chỉ, linh hoạt về không gian và thời gian.</p></div>
+                </div>
+            </div>
+            <div id="term-5" class="term-panel">
+                <div class="term-header"><h2>Nhiệm kỳ V (2007 – 2010)</h2><p>Chủ đề: "Sinh viên 5 Tốt – Rèn luyện toàn diện"</p></div>
+                <div class="features-grid">
+                    <div class="feature-card"><i class="ph ph-files feature-icon"></i><h4>Bối cảnh</h4><p>Phong trào Sinh viên 3 tốt chuyển mình thành Sinh viên 5 tốt. Yêu cầu hội nhập quốc tế ngày càng sâu rộng.</p></div>
+                    <div class="feature-card"><i class="ph ph-flag feature-icon"></i><h4>Nhiệm vụ trọng tâm</h4><ul><li>Triển khai phong trào SV 5 Tốt</li><li>Tăng cường kỹ năng thực hành</li></ul></div>
+                    <div class="feature-card"><i class="ph ph-wrench feature-icon"></i><h4>Công trình thanh niên</h4><p>Xây dựng hệ thống quản lý Đoàn viên trực tuyến, hiện đại hóa công tác lưu trữ.</p></div>
+                    <div class="feature-card"><i class="ph ph-lightbulb feature-icon"></i><h4>Mô hình giải pháp</h4><p>Nhân rộng các hội thi Tiếng Anh, giao lưu văn hóa với sinh viên quốc tế đang học tập tại trường.</p></div>
+                </div>
+            </div>
+            <div id="term-6" class="term-panel">
+                <div class="term-header"><h2>Nhiệm kỳ VI (2010 – 2012)</h2><p>Chủ đề: "Vinh quang Tình nguyện – Xung kích học thuật"</p></div>
+                <div class="features-grid">
+                    <div class="feature-card"><i class="ph ph-files feature-icon"></i><h4>Bối cảnh</h4><p>Giai đoạn gặt hái nhiều vinh quang. Năm 2012, Đoàn trường vinh dự đón nhận Huân chương Lao động hạng Nhì.</p></div>
+                    <div class="feature-card"><i class="ph ph-flag feature-icon"></i><h4>Nhiệm vụ trọng tâm</h4><ul><li>Phát huy truyền thống tình nguyện</li><li>Nâng cao chất lượng Đoàn viên</li></ul></div>
+                    <div class="feature-card"><i class="ph ph-wrench feature-icon"></i><h4>Công trình thanh niên</h4><p>Phát triển các Đội hình chuyên mang đậm chất Xã hội & Nhân văn về tận các huyện đảo tiền tiêu.</p></div>
+                    <div class="feature-card"><i class="ph ph-lightbulb feature-icon"></i><h4>Mô hình giải pháp</h4><p>Diễn đàn "Đảng viên trẻ tiêu biểu" được tổ chức thường niên, bồi dưỡng lý tưởng cách mạng.</p></div>
+                </div>
+            </div>
+            <div id="term-7" class="term-panel">
+                <div class="term-header"><h2>Nhiệm kỳ VII (2012 – 2015)</h2><p>Chủ đề: "Bản lĩnh Nhân văn – Tự tự Hội nhập"</p></div>
+                <div class="features-grid">
+                    <div class="feature-card"><i class="ph ph-files feature-icon"></i><h4>Bối cảnh</h4><p>Cộng đồng Kinh tế ASEAN (AEC) hình thành, sinh viên đối mặt với cơ hội và thách thức về việc làm toàn cầu.</p></div>
+                    <div class="feature-card"><i class="ph ph-flag feature-icon"></i><h4>Nhiệm vụ trọng tâm</h4><ul><li>Phát triển Kỹ năng công dân toàn cầu</li><li>Tổ chức các sân chơi ngoại ngữ</li></ul></div>
+                    <div class="feature-card"><i class="ph ph-wrench feature-icon"></i><h4>Công trình thanh niên</h4><p>Nâng cấp "Quỹ học bổng Cán bộ Đoàn", hỗ trợ thiết thực cho cán bộ Đoàn - Hội có hoàn cảnh khó khăn.</p></div>
+                    <div class="feature-card"><i class="ph ph-lightbulb feature-icon"></i><h4>Mô hình giải pháp</h4><p>Triển khai các "Ngày hội văn hóa ASEAN", đưa sinh viên tiếp cận văn hóa và kỹ năng giao tiếp quốc tế.</p></div>
+                </div>
+            </div>
+            <div id="term-8" class="term-panel">
+                <div class="term-header"><h2>Nhiệm kỳ VIII (2015 – 2017)</h2><p>Chủ đề: "Đổi mới phương thức – Sáng tạo Khởi nghiệp"</p></div>
+                <div class="features-grid">
+                    <div class="feature-card"><i class="ph ph-files feature-icon"></i><h4>Bối cảnh</h4><p>Quốc gia khởi nghiệp là từ khóa trọng tâm. Sinh viên khối Xã hội bắt đầu khẳng định năng lực đổi mới sáng tạo.</p></div>
+                    <div class="feature-card"><i class="ph ph-flag feature-icon"></i><h4>Nhiệm vụ trọng tâm</h4><ul><li>Lan tỏa tinh thần Khởi nghiệp</li><li>Khuyến khích dự án xã hội</li></ul></div>
+                    <div class="feature-card"><i class="ph ph-wrench feature-icon"></i><h4>Công trình thanh niên</h4><p>Ra mắt không gian sinh hoạt chung (Co-working space) hỗ trợ các dự án NCKH và Khởi nghiệp xã hội.</p></div>
+                    <div class="feature-card"><i class="ph ph-lightbulb feature-icon"></i><h4>Mô hình giải pháp</h4><p>Tổ chức các cuộc thi ý tưởng sáng tạo xã hội (Social Innovation) thu hút hàng trăm đề tài giải quyết vấn đề cộng đồng.</p></div>
+                </div>
+            </div>
+            <div id="term-9" class="term-panel">
+                <div class="term-header"><h2>Nhiệm kỳ IX (2017 – 2019)</h2><p>Chủ đề: "Dấu ấn Số hóa – Lan tỏa tri thức"</p></div>
+                <div class="features-grid">
+                    <div class="feature-card"><i class="ph ph-files feature-icon"></i><h4>Bối cảnh</h4><p>Cách mạng công nghiệp 4.0 tác động sâu sắc. Tổ chức Đoàn bắt đầu số hóa các phương thức quản lý và truyền thông.</p></div>
+                    <div class="feature-card"><i class="ph ph-flag feature-icon"></i><h4>Nhiệm vụ trọng tâm</h4><ul><li>Phát triển truyền thông số</li><li>Nâng cao chất lượng "Sinh viên 5 tốt"</li></ul></div>
+                    <div class="feature-card"><i class="ph ph-wrench feature-icon"></i><h4>Công trình thanh niên</h4><p>Số hóa Không gian truyền thống, tạo các bảo tàng ảo lưu giữ lịch sử Đoàn trường trực tuyến.</p></div>
+                    <div class="feature-card"><i class="ph ph-lightbulb feature-icon"></i><h4>Mô hình giải pháp</h4><p>Chuyển dịch các chiến dịch Tuyên truyền qua nền tảng mạng xã hội, Mạng lưới Truyền thông REC phát triển mạnh.</p></div>
+                </div>
+            </div>
+            <div id="term-10" class="term-panel">
+                <div class="term-header"><h2>Nhiệm kỳ X (2019 – 2022)</h2><p>Chủ đề: "Vượt qua thử thách – Tình nguyện tuyến đầu"</p></div>
+                <div class="features-grid">
+                    <div class="feature-card"><i class="ph ph-files feature-icon"></i><h4>Bối cảnh</h4><p>Đại dịch COVID-19 bùng phát toàn cầu. Các hoạt động học tập và phong trào bị ngưng trệ, chuyển sang hình thức trực tuyến.</p></div>
+                    <div class="feature-card"><i class="ph ph-flag feature-icon"></i><h4>Nhiệm vụ trọng tâm</h4><ul><li>Hỗ trợ phòng chống COVID-19</li><li>Duy trì phong trào trực tuyến</li></ul></div>
+                    <div class="feature-card"><i class="ph ph-wrench feature-icon"></i><h4>Công trình thanh niên</h4><p>Các Đội hình hỗ trợ tuyến đầu chống dịch: hỗ trợ lấy mẫu, điều phối tiêm vaccine, "Gian hàng 0 đồng" giúp sinh viên kẹt lại KTX.</p></div>
+                    <div class="feature-card"><i class="ph ph-lightbulb feature-icon"></i><h4>Mô hình giải pháp</h4><p>Sáng tạo các cuộc thi, hội thảo chuyên đề trực tuyến (Webinar), đảm bảo sinh viên vẫn rèn luyện tốt trong đại dịch.</p></div>
+                </div>
+            </div>
+            <div id="term-11" class="term-panel">
+                <div class="term-header"><h2>Nhiệm kỳ XI (2022 – 2024)</h2><p>Chủ đề: "Phục hồi mạnh mẽ – Tiên phong Chuyển đổi số"</p></div>
+                <div class="features-grid">
+                    <div class="feature-card"><i class="ph ph-files feature-icon"></i><h4>Bối cảnh</h4><p>Giai đoạn bình thường mới sau đại dịch. Đoàn trường tập trung khôi phục lại khí thế phong trào và thực hiện số hóa toàn diện.</p></div>
+                    <div class="feature-card"><i class="ph ph-flag feature-icon"></i><h4>Nhiệm vụ trọng tâm</h4><ul><li>Ứng dụng công nghệ quản lý</li><li>Đẩy mạnh giao lưu quốc tế</li></ul></div>
+                    <div class="feature-card"><i class="ph ph-wrench feature-icon"></i><h4>Công trình thanh niên</h4><p>Ra mắt "App Tuổi trẻ Nhân văn" - Ứng dụng điện thoại đầu tiên trong việc điểm danh, đăng ký sự kiện và quản lý Đoàn viên.</p></div>
+                    <div class="feature-card"><i class="ph ph-lightbulb feature-icon"></i><h4>Mô hình giải pháp</h4><p>Tổ chức liên tục các ngày hội việc làm ảo, kết nối sinh viên với doanh nghiệp đa quốc gia qua nền tảng số.</p></div>
+                </div>
+            </div>
+            <div id="term-12" class="term-panel">
+                <div class="term-header"><h2>Nhiệm kỳ XII (2024 – 2027)</h2><p>Chủ đề: "Yêu nước – Khát vọng – Xung kích – Sáng tạo – Hội nhập"</p></div>
+                <div class="features-grid">
+                    <div class="feature-card"><i class="ph ph-files feature-icon"></i><h4>Bối cảnh</h4><p>Hướng tới kỷ niệm 30 năm phong trào Đoàn trường ĐH KHXH&NV, khẳng định vị thế và bản sắc Sinh viên Nhân văn trong kỷ nguyên số.</p></div>
+                    <div class="feature-card"><i class="ph ph-flag feature-icon"></i><h4>Nhiệm vụ trọng tâm</h4><ul><li>Phát huy hệ giá trị di sản</li><li>Bảo vệ nền tảng tư tưởng Đảng</li></ul></div>
+                    <div class="feature-card"><i class="ph ph-wrench feature-icon"></i><h4>Công trình thanh niên</h4><p>Xây dựng "Không gian triển lãm số 30 Năm Đoàn trường", số hóa 100% tài liệu lịch sử phong trào Đoàn - Hội.</p></div>
+                    <div class="feature-card"><i class="ph ph-lightbulb feature-icon"></i><h4>Mô hình giải pháp</h4><p>Tăng cường các sân chơi học thuật ứng dụng AI, khuyến khích sáng tạo nội dung số nhân văn, tích cực, an toàn trên mạng xã hội.</p></div>
+                </div>
+
+                <div class="two-cols-wrapper" style="margin-top: 40px; display: grid; grid-template-columns: 1.2fr 1fr; gap: 40px;">
+                    <div>
+                        <div style="text-align: left; margin-bottom: 20px;">
+                            <h3 style="font-size:1.6rem; color: var(--primary-blue); font-family: var(--font-serif);"><i class="ph ph-users-three" style="color:var(--accent-red); margin-right: 5px;"></i> Hoạt động nổi bật</h3>
+                        </div>
+                        <div style="display: flex; flex-direction: column; gap: 20px;">
+                            <div style="display: flex; gap: 15px; align-items: center; border: 1px solid #e2e8f0; padding: 15px; border-radius: 12px; background: var(--bg-light); transition: transform 0.3s ease;" onmouseover="this.style.transform='translateY(-3px)'" onmouseout="this.style.transform='translateY(0)'">
+                                <img src="https://placehold.co/100x100/2563eb/FFFFFF?text=Tu+Tuong" alt="Công tác Tư tưởng" style="width: 80px; height: 80px; border-radius: 8px; object-fit: cover; flex-shrink: 0;">
+                                <div>
+                                    <h4 style="color: var(--primary-blue); margin-bottom: 5px; font-weight: 700; font-size: 1.05rem;">Công tác Tuyên giáo</h4>
+                                    <p style="font-size: 0.9rem; color: #475569; margin: 0; line-height: 1.5;">Khởi xướng diễn đàn "Thanh niên thời đại mới", bảo vệ bản sắc văn hóa dân tộc trên không gian mạng.</p>
+                                </div>
+                            </div>
+                            <div style="display: flex; gap: 15px; align-items: center; border: 1px solid #e2e8f0; padding: 15px; border-radius: 12px; background: var(--bg-light); transition: transform 0.3s ease;" onmouseover="this.style.transform='translateY(-3px)'" onmouseout="this.style.transform='translateY(0)'">
+                                <img src="https://placehold.co/100x100/1e3a8a/FFFFFF?text=Hoi+Nhap" alt="Ban Quốc tế" style="width: 80px; height: 80px; border-radius: 8px; object-fit: cover; flex-shrink: 0;">
+                                <div>
+                                    <h4 style="color: var(--primary-blue); margin-bottom: 5px; font-weight: 700; font-size: 1.05rem;">Hội nhập Quốc tế</h4>
+                                    <p style="font-size: 0.9rem; color: #475569; margin: 0; line-height: 1.5;">Điều phối các chương trình trao đổi sinh viên khu vực ASEAN, huấn luyện kỹ năng công dân toàn cầu.</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div style="background: linear-gradient(135deg, #1e3a8a 0%, #3b82f6 100%); color: white; padding: 30px; border-radius: 16px; position: relative; overflow: hidden;">
+                        <i class="ph-fill ph-star" style="position: absolute; right: -20px; top: -20px; font-size: 8rem; color: rgba(255,255,255,0.1);"></i>
+                        <h3 style="font-family: var(--font-serif); font-size: 1.8rem; margin-bottom: 25px; position: relative; z-index: 1;">Mục tiêu 2024 - 2027</h3>
+                        <div style="display: flex; flex-direction: column; gap: 15px; position: relative; z-index: 1;">
+                            <div style="display: flex; align-items: center; gap: 15px; background: rgba(255,255,255,0.1); padding: 12px 20px; border-radius: 10px;">
+                                <div style="background: var(--accent-red); color: white; width: 30px; height: 30px; display: flex; align-items: center; justify-content: center; border-radius: 50%; font-weight: bold; font-size: 0.9rem; flex-shrink: 0;">1</div>
+                                <div style="flex: 1; font-weight: 500; font-size: 0.95rem;">100% Chi đoàn quản lý số</div>
+                            </div>
+                            <div style="display: flex; align-items: center; gap: 15px; background: rgba(255,255,255,0.1); padding: 12px 20px; border-radius: 10px;">
+                                <div style="background: rgba(255,255,255,0.3); color: white; width: 30px; height: 30px; display: flex; align-items: center; justify-content: center; border-radius: 50%; font-weight: bold; font-size: 0.9rem; flex-shrink: 0;">2</div>
+                                <div style="flex: 1; font-weight: 500; font-size: 0.95rem;">Lan tỏa "SV 5 Tốt" toàn quốc</div>
+                            </div>
+                            <div style="display: flex; align-items: center; gap: 15px; background: rgba(255,255,255,0.1); padding: 12px 20px; border-radius: 10px;">
+                                <div style="background: rgba(255,255,255,0.3); color: white; width: 30px; height: 30px; display: flex; align-items: center; justify-content: center; border-radius: 50%; font-weight: bold; font-size: 0.9rem; flex-shrink: 0;">3</div>
+                                <div style="flex: 1; font-weight: 500; font-size: 0.95rem;">Dẫn đầu thi đua khối Đại học</div>
+                            </div>
+                        </div>
+                        <div style="margin-top: 25px; background: rgba(0,0,0,0.2); padding: 15px; border-radius: 10px; position: relative; z-index: 1;">
+                            <strong style="color: var(--accent-yellow); display: block; margin-bottom: 5px; font-size: 0.85rem; letter-spacing: 1px;">KHÁT VỌNG</strong>
+                            <p style="font-size: 0.9rem; margin: 0; opacity: 0.9; line-height: 1.5;">Xây dựng lớp thanh niên Nhân văn bản lĩnh, sáng tạo, làm chủ kỷ nguyên công nghệ số.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+        <div class="container org-chart-section reveal">
+            <div class="section-header">
+                <h3>Cơ cấu Tổ chức Hiện tại</h3>
+                <p style="color: #64748b; margin-top: 10px; font-size: 1.05rem;">Sơ đồ phân cấp các Ban hoạt động của Đoàn - Hội Trường ĐH KHXH&NV</p>
+            </div>
+
+            <div class="dual-org-charts">
+                
+                <div class="org-chart-column doan-col">
+                    <div class="org-level-1">
+                        <div class="org-node">Đoàn Trường</div>
+                    </div>
+                    <div class="org-level-2">
+                        <div class="org-node">Ban Chấp Hành</div>
+                        <div class="org-node">Ủy Ban Kiểm Tra</div>
+                    </div>
+                    <div class="org-level-3">
+                        <div class="org-node">Ban Tuyên Giáo</div>
+                        <div class="org-node">Ban Tổ Chức &amp; Xây Dựng Đoàn</div>
+                        <div class="org-node">Ban Học Tập - Nghiên Cứu Khoa Học</div>
+                        <div class="org-node">Ban Quốc Tế</div>
+                        <div class="org-node">Tổ Công Tác Văn Phòng</div>
+                    </div>
+                </div>
+
+                <div class="org-chart-column hoi-col">
+                    <div class="org-level-1">
+                        <div class="org-node">HSV Trường</div>
+                    </div>
+                    <div class="org-level-2">
+                        <div class="org-node">Ban Chấp Hành</div>
+                        <div class="org-node">Ban Kiểm Tra</div>
+                    </div>
+                    <div class="org-level-3">
+                        <div class="org-node">Ban Học Tập &amp; Rèn Luyện Sinh Viên 5 Tốt</div>
+                        <div class="org-node">Ban Tổ Chức &amp; Xây Dựng Hội</div>
+                        <div class="org-node">Ban Tình Nguyện &amp; Hỗ Trợ Sinh Viên</div>
+                        <div class="org-node">Ban Hoạt Động Văn - Thể - Mỹ</div>
+                    </div>
+                </div>
+
+            </div>
+            <div class="dept-grid">
+                <div class="dept-card">
+                    <i class="ph ph-megaphone"></i>
+                    <h4>Ban Tuyên giáo</h4>
+                    <p>Định hướng tư tưởng, lan tỏa bản sắc văn hóa và giáo dục lý tưởng cách mạng cho sinh viên qua các chiến dịch và không gian mạng.</p>
+                </div>
+                <div class="dept-card">
+                    <i class="ph ph-users"></i>
+                    <h4>Ban Tổ chức & Xây dựng Đoàn/Hội</h4>
+                    <p>Quản lý dữ liệu Đoàn viên/Hội viên, đào tạo cán bộ, tổ chức các lớp cảm tình Đoàn và kiện toàn bộ máy cơ sở.</p>
+                </div>
+                <div class="dept-card">
+                    <i class="ph ph-books"></i>
+                    <h4>Ban Học tập & NCKH / SV 5 Tốt</h4>
+                    <p>Thúc đẩy phong trào học tập, bồi dưỡng danh hiệu Sinh viên 5 Tốt và hỗ trợ các dự án Nghiên cứu Khoa học của sinh viên.</p>
+                </div>
+                <div class="dept-card">
+                    <i class="ph ph-globe"></i>
+                    <h4>Ban Quốc tế</h4>
+                    <p>Mở rộng quan hệ, điều phối các chương trình trao đổi sinh viên quốc tế và nâng cao năng lực hội nhập toàn cầu.</p>
+                </div>
+                <div class="dept-card">
+                    <i class="ph ph-hand-heart"></i>
+                    <h4>Ban Tình nguyện & Hỗ trợ SV</h4>
+                    <p>"Trái tim" sôi nổi của Hội Sinh viên, tổ chức các chiến dịch tình nguyện lớn và hỗ trợ đời sống cho sinh viên khó khăn.</p>
+                </div>
+                <div class="dept-card">
+                    <i class="ph ph-palette"></i>
+                    <h4>Ban Hoạt động Văn - Thể - Mỹ</h4>
+                    <p>Tạo ra những sân chơi nghệ thuật, thể thao sôi động, bồi dưỡng năng khiếu cho hàng nghìn sinh viên Nhân văn hào hoa.</p>
+                </div>
+            </div>
+        </div>
+
+    </main>
+
+    <footer class="footer container">
+        <div class="footer-grid reveal">
+            <div class="footer-col">
+                <h5>TRƯỜNG ĐH KHXH&NV, ĐHQG-HCM</h5>
+                <div class="info-line">
+                    <i class="ph ph-buildings"></i>
+                    <div>Đơn vị quản lý:<br>Đoàn trường ĐH KHXH&NV, ĐHQG-HCM</div>
+                </div>
+            </div>
+            <div class="footer-col">
+                <h5>Liên hệ</h5>
+                <div class="info-line">
+                    <i class="ph ph-map-pin"></i>
+                    <div>10-12 Đinh Tiên Hoàng, Phường Bến Nghé, Quận 1, TP. HCM</div>
+                </div>
+                <div class="info-line">
+                    <i class="ph ph-envelope"></i>
+                    <div><a href="mailto:doantncs@hcmussh.edu.vn">doantncs@hcmussh.edu.vn</a></div>
+                </div>
+            </div>
+            <div class="footer-col" style="display: flex; gap: 40px;">
+                <div>
+                    <h5>Liên kết</h5>
+                    <a href="#">Đoàn trường</a>
+                    <a href="index.html">Trang chủ</a>
+                </div>
+                <div>
+                    <h5 style="visibility: hidden;">Links</h5>
+                    <a href="#">Thông tin số</a>
+                </div>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <div>© 2024 Đoàn TNCS Hồ Chí Minh - Trường Đại học Khoa học Xã hội và Nhân văn</div>
+            <div>CHÍNH SÁCH BẢO MẬT &nbsp;|&nbsp; ĐIỀU KHOẢN SỬ DỤNG</div>
+        </div>
+    </footer>
+
+    <button id="back-to-top" aria-label="Lên đầu trang">
+        <i class="ph ph-arrow-up"></i>
+    </button>
+
+    <script src="shared.js"></script>
+    <script>
+        // Navbar Scrolled Effect
+        const navWrapper = document.getElementById('navbar-wrapper');
+        window.addEventListener('scroll', () => {
+            navWrapper.classList.toggle('scrolled', window.scrollY > 20);
+        }, { passive: true });
+
+        // Horizontal Timeline Logic
+        const hNodes = document.querySelectorAll('.timeline-node-wrap');
+        const hPanels = document.querySelectorAll('.term-panel');
+
+        function activateHTimeline(targetId) {
+            let activeIndex = -1;
+            
+            // Tìm vị trí của node được click
+            hNodes.forEach((node, index) => {
+                if (node.dataset.target === targetId) {
+                    activeIndex = index;
+                }
+            });
+
+            // Cập nhật trạng thái màu sắc cho các node (Past, Active, Future)
+            hNodes.forEach((node, index) => {
+                node.classList.remove('active', 'past');
+                if (index < activeIndex) {
+                    node.classList.add('past');
+                } else if (index === activeIndex) {
+                    node.classList.add('active');
+                }
+            });
+
+            // Chuyển đổi Panel hiển thị
+            hPanels.forEach(p => p.classList.remove('active'));
+            const targetPanel = document.getElementById(targetId);
+            if (targetPanel) {
+                targetPanel.classList.add('active');
+            }
+        }
+
+        // Bắt sự kiện click
+        hNodes.forEach(node => {
+            node.addEventListener('click', () => {
+                activateHTimeline(node.dataset.target);
+            });
+        });
+        
+        // Back to top
+        const backToTop = document.getElementById('back-to-top');
+        if (backToTop) {
+            window.addEventListener('scroll', () => { backToTop.classList.toggle('visible', window.scrollY > 400); }, { passive: true });
+            backToTop.addEventListener('click', () => { window.scrollTo({ top: 0, behavior: 'smooth' }); });
+        }
+    </script>
+</body>
+</html>

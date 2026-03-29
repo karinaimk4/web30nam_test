@@ -1,0 +1,360 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Thành tích nổi bật - Triển lãm 30 Năm</title>
+    
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Newsreader:ital,opsz,wght@0,6..72,400..700;1,6..72,400..700&display=swap" rel="stylesheet">
+    
+    <script src="https://unpkg.com/@phosphor-icons/web"></script>
+    <link rel="stylesheet" href="shared.css">
+    
+    <style>
+        /* ================== HERO BANNER ================== */
+        .page-hero { background: linear-gradient(135deg, #0f172a 0%, #1e3a8a 100%); padding: 70px 20px; text-align: center; color: white; border-radius: 16px; margin-top: 30px; }
+        .hero-overhead { font-size: 0.8rem; text-transform: uppercase; letter-spacing: 3px; color: #93c5fd; margin-bottom: 15px; font-weight: 600; }
+        .page-hero h1 { font-family: var(--font-serif); font-style: italic; font-size: 3.5rem; font-weight: 500; margin-bottom: 20px; }
+        .page-hero p { font-size: 1.05rem; opacity: 0.9; max-width: 700px; margin: 0 auto; line-height: 1.6; }
+
+        /* ================== PAGE TABS ================== */
+        .page-tabs-wrapper { border-bottom: 1px solid #e2e8f0; background: white; margin-top: 20px; margin-bottom: 50px; }
+        .page-tabs { display: flex; justify-content: center; gap: 40px; overflow-x: auto; }
+        .page-tabs a { padding: 20px 0; font-size: 0.85rem; font-weight: 600; color: #64748b; text-transform: uppercase; letter-spacing: 1px; border-bottom: 3px solid transparent; white-space: nowrap; transition: all 0.2s; }
+        .page-tabs a:hover { color: var(--primary-blue); }
+        .page-tabs a.active { color: var(--primary-blue); border-bottom-color: var(--primary-blue); }
+
+        /* ================== MAIN LAYOUT (SIDEBAR + CONTENT) ================== */
+        .main-layout { display: flex; gap: 50px; align-items: flex-start; }
+        .sidebar { width: 240px; flex-shrink: 0; position: sticky; top: 30px; }
+        .sidebar-header { display: flex; align-items: center; gap: 15px; margin-bottom: 40px; }
+        .sidebar-icon-box { width: 45px; height: 45px; background-color: var(--bg-light); border-radius: 8px; display: flex; align-items: center; justify-content: center; font-size: 1.5rem; color: var(--primary-blue); }
+        .sidebar-header-text h3 { font-family: var(--font-serif); font-style: italic; font-size: 1.4rem; color: var(--primary-blue); font-weight: 500; margin-bottom: 2px; }
+        .sidebar-header-text p { font-size: 0.65rem; color: #94a3b8; font-weight: 600; text-transform: uppercase; letter-spacing: 0.5px; }
+        .sidebar-nav { display: flex; flex-direction: column; gap: 25px; }
+        .sidebar-nav a { display: flex; align-items: center; gap: 15px; font-size: 0.85rem; font-weight: 600; color: #64748b; text-transform: uppercase; letter-spacing: 0.5px; transition: color 0.2s; }
+        .sidebar-nav a .ph { font-size: 1.2rem; color: #94a3b8; transition: color 0.2s; }
+        .sidebar-nav a:hover, .sidebar-nav a.active { color: var(--primary-blue); }
+        .sidebar-nav a:hover .ph, .sidebar-nav a.active .ph { color: var(--primary-blue); }
+        .main-content { flex-grow: 1; min-width: 0; }
+
+        /* ================== THÀNH TÍCH TẬP THỂ ================== */
+        .centered-header { text-align: center; margin-bottom: 40px; }
+        .centered-header h2 { font-family: var(--font-serif); font-style: italic; font-size: 2rem; color: var(--primary-blue); font-weight: 500; display: inline-block; position: relative; }
+        .centered-header h2::after { content: ''; position: absolute; bottom: -8px; left: 50%; transform: translateX(-50%); width: 40px; height: 3px; background-color: var(--accent-red); }
+        .achievement-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 25px; margin-bottom: 80px; }
+        .ach-card { background: white; border: 1px solid #e2e8f0; border-top: 4px solid var(--accent-red); border-radius: 8px; padding: 30px; box-shadow: 0 4px 15px rgba(0,0,0,0.02); transition: transform 0.3s; }
+        .ach-card:hover { transform: translateY(-5px); box-shadow: 0 10px 25px rgba(0,0,0,0.05); }
+        .ach-date { font-size: 0.8rem; color: var(--accent-red); font-weight: 600; margin-bottom: 10px; text-transform: uppercase; }
+        .ach-card h3 { font-size: 1.2rem; color: var(--primary-blue); margin-bottom: 15px; font-weight: 600; }
+        .ach-card p { color: #64748b; font-size: 0.9rem; margin-bottom: 25px; line-height: 1.6; }
+        .ach-link { font-size: 0.85rem; font-weight: 600; color: var(--accent-blue); display: flex; align-items: center; gap: 5px; text-transform: uppercase; }
+
+        /* ================== GƯƠNG MẶT TIÊU BIỂU ================== */
+        .flex-header { display: flex; justify-content: space-between; align-items: flex-end; margin-bottom: 30px; }
+        .flex-header h2 { font-family: var(--font-serif); font-style: italic; font-size: 2rem; color: var(--primary-blue); font-weight: 500; }
+        .flex-header p { color: #64748b; font-size: 0.9rem; margin-top: 5px; }
+        .view-all-link { font-size: 0.8rem; font-weight: 700; color: var(--accent-red); text-transform: uppercase; display: flex; align-items: center; gap: 5px; }
+        
+        .faces-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; margin-bottom: 80px; }
+        .face-card img { width: 100%; aspect-ratio: 4/5; object-fit: cover; border-radius: 8px; margin-bottom: 15px; box-shadow: 0 4px 10px rgba(0,0,0,0.05); }
+        .face-tag { font-size: 0.65rem; color: var(--accent-red); font-weight: 700; text-transform: uppercase; margin-bottom: 5px; letter-spacing: 0.5px; }
+        .face-name { font-size: 1.1rem; color: var(--primary-blue); font-weight: 600; margin-bottom: 5px; }
+        .face-role { font-size: 0.75rem; color: #64748b; margin-bottom: 10px; }
+        .face-quote { font-family: var(--font-serif); font-style: italic; font-size: 0.95rem; color: #475569; line-height: 1.5; border-left: 2px solid #e2e8f0; padding-left: 10px; }
+
+        /* ================== HÀNH TRÌNH 3 THẬP KỶ ================== */
+        .journey-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 30px; margin-top: 40px; margin-bottom: 80px; text-align: center; }
+        .journey-item .ph { font-size: 2rem; color: var(--accent-blue); margin-bottom: 15px; }
+        .journey-year { font-family: var(--font-serif); font-style: italic; font-size: 2rem; color: var(--accent-red); font-weight: 500; margin-bottom: 10px; }
+        .journey-title { font-size: 1rem; color: var(--primary-blue); font-weight: 600; margin-bottom: 10px; text-transform: uppercase; }
+        .journey-item p { font-size: 0.85rem; color: #64748b; line-height: 1.6; }
+
+        /* ================== IMPACT SECTION ================== */
+        .impact-section { background-color: var(--primary-blue); border-radius: 20px; padding: 60px 40px; color: white; margin-bottom: 80px; }
+        .impact-layout { display: grid; grid-template-columns: 1fr 1fr; gap: 50px; align-items: center; }
+        .impact-title { font-family: var(--font-serif); font-style: italic; font-size: 2.2rem; font-weight: 500; margin-bottom: 30px; }
+        .impact-features { display: grid; grid-template-columns: 1fr 1fr; gap: 25px; }
+        .impact-feature .ph { font-size: 1.8rem; color: #93c5fd; margin-bottom: 10px; }
+        .impact-feature h4 { font-size: 1rem; margin-bottom: 8px; font-weight: 600; }
+        .impact-feature p { font-size: 0.8rem; color: #cbd5e1; line-height: 1.5; }
+
+        .impact-quotes { display: flex; flex-direction: column; gap: 20px; }
+        .quote-card { background: white; color: var(--text-main); padding: 30px; border-radius: 12px; position: relative; text-align: left; }
+        .quote-card.transparent { background: rgba(255, 255, 255, 0.05); color: white; border: 1px solid rgba(255, 255, 255, 0.1); }
+        .quote-icon { font-size: 2.5rem; color: rgba(59, 130, 246, 0.1); position: absolute; top: 15px; left: 15px; }
+        .quote-card.transparent .quote-icon { color: rgba(255, 255, 255, 0.1); }
+        .quote-text { font-family: var(--font-serif); font-style: italic; font-size: 1.15rem; line-height: 1.6; color: var(--primary-blue); margin-bottom: 20px; position: relative; z-index: 1; }
+        .quote-card.transparent .quote-text { color: white; font-size: 1rem; }
+        .quote-author { display: flex; align-items: center; gap: 15px; position: relative; z-index: 1; }
+        .author-avatar { width: 40px; height: 40px; background-color: var(--bg-gray); border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: 700; color: var(--primary-blue); font-size: 0.85rem; }
+        .quote-card.transparent .author-avatar { background-color: rgba(255,255,255,0.1); color: white; }
+        .author-info h5 { font-size: 0.9rem; font-weight: 700; margin-bottom: 2px;}
+        .author-info p { font-size: 0.7rem; color: #64748b; text-transform: uppercase;}
+        .quote-card.transparent .author-info p { color: #94a3b8; }
+
+        @media (max-width: 992px) {
+            .main-layout { flex-direction: column; gap: 30px; }
+            .sidebar { width: 100%; position: relative; top: 0; }
+            .sidebar-nav { flex-direction: row; flex-wrap: wrap; gap: 15px; }
+            .achievement-grid { grid-template-columns: 1fr; }
+            .faces-grid { grid-template-columns: repeat(2, 1fr); }
+            .impact-layout { grid-template-columns: 1fr; gap: 40px; }
+        }
+        @media (max-width: 768px) {
+            .page-hero h1 { font-size: 2.5rem; }
+            .page-tabs { gap: 15px; justify-content: flex-start; }
+            .faces-grid { grid-template-columns: 1fr; }
+            .journey-grid { grid-template-columns: 1fr; gap: 30px; }
+            .impact-features { grid-template-columns: 1fr; }
+            .flex-header { flex-direction: column; align-items: flex-start; gap: 10px; }
+            .impact-section { padding: 40px 20px; }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="navbar-wrapper" id="navbar-wrapper">
+        <div class="container">
+            <nav class="navbar" style="position:static; backdrop-filter:none; background:transparent; box-shadow:none; border-bottom:none;">
+                <div class="nav-brand">Triển lãm 30 Năm</div>
+                <button class="nav-toggle" aria-label="Menu"><span></span><span></span><span></span></button>
+                <ul class="nav-links">
+                    <li><a href="index.html">Trang chủ</a></li>
+                    <li><a href="lichsu.html">Lịch sử</a></li>
+                    <li><a href="cocau.html">Cơ cấu</a></li>
+                    <li><a href="phongtrao.html">Phong trào</a></li>
+                    <li><a href="thanhtich.html" class="active">Thành tích</a></li>
+                    <li><a href="gockyuc.html">Góc ký ức</a></li>
+                </ul>
+            </nav>
+        </div>
+    </div>
+
+    <div class="container">
+        <header class="page-hero reveal">
+            <p class="hero-overhead">CHẶNG ĐƯỜNG LỊCH SỬ</p>
+            <h1>Thành tích nổi bật</h1>
+            <p>Ghi nhận những nỗ lực, cống hiến và những dấu ấn tự hào của các thế hệ cán bộ, đoàn viên, thanh niên trong suốt chặng đường 30 năm.</p>
+        </header>
+    </div>
+
+    <div class="container reveal">
+        <div class="page-tabs-wrapper">
+            <div class="page-tabs">
+                <a href="#" class="active">THÀNH TÍCH TẬP THỂ</a>
+                <a href="#">THÀNH TÍCH CÁ NHÂN</a>
+                <a href="#">CỘT MỐC ĐÁNG NHỚ</a>
+                <a href="#">CÁC THẾ HỆ</a>
+            </div>
+        </div>
+    </div>
+
+    <div class="container main-layout">
+        <aside class="sidebar reveal">
+            <div class="sidebar-header">
+                <div class="sidebar-icon-box">
+                    <i class="ph-fill ph-medal"></i>
+                </div>
+                <div class="sidebar-header-text">
+                    <h3>Thành tích</h3>
+                    <p>HÀNH TRÌNH 30 NĂM</p>
+                </div>
+            </div>
+            
+            <ul class="sidebar-nav">
+                <li><a href="#" class="active"><i class="ph ph-users-three"></i> TẬP THỂ</a></li>
+                <li><a href="#"><i class="ph ph-user-focus"></i> CÁ NHÂN</a></li>
+                <li><a href="#"><i class="ph ph-chart-line-up"></i> GIAI ĐOẠN</a></li>
+                <li><a href="#"><i class="ph ph-sparkle"></i> LAN TỎA</a></li>
+            </ul>
+        </aside>
+
+        <main class="main-content">
+            <section class="reveal">
+                <div class="centered-header">
+                    <h2>Thành tích tập thể</h2>
+                </div>
+                <div class="achievement-grid">
+                    <div class="ach-card reveal reveal-delay-1">
+                        <div class="ach-date">NĂM 2012</div>
+                        <h3>Huân chương Lao động hạng Nhì</h3>
+                        <p>Tập thể Đoàn TNCS Hồ Chí Minh trường vinh dự đón nhận phần thưởng cao quý của Nhà nước cho phong trào tình nguyện.</p>
+                        <a href="#" class="ach-link">CHI TIẾT <i class="ph ph-arrow-right"></i></a>
+                    </div>
+                    <div class="ach-card reveal reveal-delay-2">
+                        <div class="ach-date">NĂM 2019</div>
+                        <h3>Cờ thi đua Chính phủ</h3>
+                        <p>Đơn vị xuất sắc dẫn đầu cụm thi đua khối trường học, góp phần phát triển công tác Đoàn toàn thành.</p>
+                        <a href="#" class="ach-link">CHI TIẾT <i class="ph ph-arrow-right"></i></a>
+                    </div>
+                    <div class="ach-card reveal reveal-delay-1">
+                        <div class="ach-date">NHIỀU NĂM LIỀN</div>
+                        <h3>Bằng khen của Bộ GD&ĐT</h3>
+                        <p>Đạt thành tích xuất sắc trong công tác Đoàn và phong trào thanh niên, xung kích nghiên cứu khoa học.</p>
+                        <a href="#" class="ach-link">CHI TIẾT <i class="ph ph-arrow-right"></i></a>
+                    </div>
+                    <div class="ach-card reveal reveal-delay-2">
+                        <div class="ach-date">NHIỀU NĂM LIỀN</div>
+                        <h3>Cờ thi đua xuất sắc</h3>
+                        <p>Luôn giữ vững vị trí là lá cờ đầu trong công tác Hội và phong trào sinh viên của Đại học Quốc gia.</p>
+                        <a href="#" class="ach-link">CHI TIẾT <i class="ph ph-arrow-right"></i></a>
+                    </div>
+                </div>
+            </section>
+
+            <section class="reveal">
+                <div class="flex-header">
+                    <div>
+                        <h2>Gương mặt tiêu biểu</h2>
+                        <p>Những cá nhân xuất sắc, đại diện cho trí tuệ và bản lĩnh.</p>
+                    </div>
+                    <a href="#" class="view-all-link">TẤT CẢ DANH SÁCH <i class="ph ph-arrow-right"></i></a>
+                </div>
+
+                <div class="faces-grid">
+                    <div class="face-card reveal reveal-delay-1">
+                        <img src="https://placehold.co/300x400/e2e8f0/64748b?text=Ảnh" alt="Nguyễn Văn A">
+                        <div class="face-tag">SINH VIÊN 5 TỐT CẤP TƯ</div>
+                        <div class="face-name">Nguyễn Văn A</div>
+                        <div class="face-role">SV Khoa Báo chí và Truyền thông</div>
+                        <p class="face-quote">"Nhiệt huyết tuổi trẻ là ngọn lửa thắp sáng những ước mơ và cống hiến cho xã hội."</p>
+                    </div>
+                    <div class="face-card reveal reveal-delay-2">
+                        <img src="https://placehold.co/300x400/cbd5e1/475569?text=Ảnh" alt="Trần Thị B">
+                        <div class="face-tag">SAO THÁNG GIÊNG</div>
+                        <div class="face-name">Trần Thị B</div>
+                        <div class="face-role">SV Khoa Quan hệ Quốc tế</div>
+                        <p class="face-quote">"Trách nhiệm của thanh niên là hành động để làm cho cuộc sống này tốt đẹp hơn."</p>
+                    </div>
+                    <div class="face-card reveal reveal-delay-3">
+                        <img src="https://placehold.co/300x400/e2e8f0/64748b?text=Ảnh" alt="Lê Hoàng C">
+                        <div class="face-tag">THANH NIÊN TIÊN TIẾN</div>
+                        <div class="face-name">Lê Hoàng C</div>
+                        <div class="face-role">SV Khoa Lịch sử</div>
+                        <p class="face-quote">"Học tập và làm theo Bác từ những điều bình dị nhất trong cuộc sống hàng ngày."</p>
+                    </div>
+                </div>
+            </section>
+
+            <section class="reveal">
+                <div class="centered-header" style="margin-bottom: 20px;">
+                    <h2>Hành trình ba thập kỷ</h2>
+                </div>
+                <p style="text-align: center; color: #64748b;">Những chặng đường phát triển rực rỡ qua từng giai đoạn quan trọng.</p>
+                
+                <div class="journey-grid">
+                    <div class="journey-item reveal reveal-delay-1">
+                        <i class="ph-fill ph-plant"></i>
+                        <div class="journey-year">1994 - 2004</div>
+                        <div class="journey-title">GIAI ĐOẠN KIẾN TẠO</div>
+                        <p>Xây dựng nền móng phong trào, định hình bản sắc sinh viên Nhân văn.</p>
+                    </div>
+                    <div class="journey-item reveal reveal-delay-2">
+                        <i class="ph-fill ph-rocket-launch"></i>
+                        <div class="journey-year">2005 - 2014</div>
+                        <div class="journey-title">BƯỚC CHUYỂN MÌNH</div>
+                        <p>Bứt phá trong các chiến dịch tình nguyện và nghiên cứu khoa học.</p>
+                    </div>
+                    <div class="journey-item reveal reveal-delay-3">
+                        <i class="ph-fill ph-globe-hemisphere-west"></i>
+                        <div class="journey-year">2015 - 2024</div>
+                        <div class="journey-title">VƯƠN TẦM HỘI NHẬP</div>
+                        <p>Đẩy mạnh chuyển đổi số và nâng cao năng lực hội nhập.</p>
+                    </div>
+                </div>
+            </section>
+
+            <section class="impact-section reveal">
+                <div class="impact-layout">
+                    <div class="impact-left">
+                        <h2 class="impact-title">Giá trị và tác động lan&nbsp;tỏa</h2>
+                        <div class="impact-features">
+                            <div class="impact-feature">
+                                <i class="ph ph-shield-check"></i>
+                                <h4>Bảo vệ nền tảng</h4>
+                                <p>Xây dựng đội ngũ sinh viên có bản lĩnh chính trị vững vàng.</p>
+                            </div>
+                            <div class="impact-feature">
+                                <i class="ph ph-graduation-cap"></i>
+                                <h4>Phát triển năng lực</h4>
+                                <p>Tạo môi trường để rèn luyện kỹ năng, phát huy sáng tạo.</p>
+                            </div>
+                            <div class="impact-feature">
+                                <i class="ph ph-bank"></i>
+                                <h4>Xây dựng tổ chức</h4>
+                                <p>Không ngừng củng cố và nâng cao chất lượng hoạt động.</p>
+                            </div>
+                            <div class="impact-feature">
+                                <i class="ph ph-users"></i>
+                                <h4>Lan tỏa cộng đồng</h4>
+                                <p>Hàng ngàn công trình tình nguyện mang lại giá trị thiết thực.</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="impact-right impact-quotes">
+                        <div class="quote-card">
+                            <i class="ph-fill ph-quotes quote-icon"></i>
+                            <p class="quote-text">"Đoàn không chỉ là tổ chức, mà là ngôi nhà thứ hai giúp những thế hệ sinh viên rèn luyện, trưởng thành."</p>
+                            <div class="quote-author">
+                                <div class="author-avatar">TN</div>
+                                <div class="author-info">
+                                    <h5>Trần Nguyễn</h5>
+                                    <p>CỰU CÁN BỘ ĐOÀN 2015 - 2019</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="quote-card transparent">
+                            <i class="ph-fill ph-quotes quote-icon"></i>
+                            <p class="quote-text">"Nhìn lại chặng đường dài, tự hào vì tuổi trẻ Nhân văn luôn tiên phong trước thách thức của thời đại mới."</p>
+                            <div class="quote-author">
+                                <div class="author-avatar">MT</div>
+                                <div class="author-info">
+                                    <h5>Minh Tuấn</h5>
+                                    <p>ĐẢNG VIÊN TRẺ TIÊU BIỂU 2023</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </main>
+    </div>
+
+    <footer class="footer container reveal">
+        <div class="footer-grid">
+            <div class="footer-col">
+                <h5>TRƯỜNG ĐH KHXH&NV, ĐHQG-HCM</h5>
+                <div class="info-line"><i class="ph ph-buildings"></i><div>Đơn vị quản lý:<br>Đoàn trường ĐH KHXH&NV, ĐHQG-HCM</div></div>
+            </div>
+            <div class="footer-col">
+                <h5>Liên hệ</h5>
+                <div class="info-line"><i class="ph ph-map-pin"></i><div>10-12 Đinh Tiên Hoàng, Phường Bến Nghé, Quận 1, TP. HCM</div></div>
+                <div class="info-line"><i class="ph ph-envelope"></i><div>doanthanhnien@hcmussh.edu.vn</div></div>
+            </div>
+            <div class="footer-col" style="display: flex; gap: 40px;">
+                <div><h5>Liên kết</h5><a href="#">Đoàn trường</a><a href="index.html">Trang chủ</a></div>
+                <div><h5 style="visibility: hidden;">Links</h5><a href="#">Thông tin số</a></div>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <div>© 2024 Đoàn TNCS Hồ Chí Minh - Trường Đại học Khoa học Xã hội và Nhân văn</div>
+            <div>CHÍNH SÁCH BẢO MẬT &nbsp;|&nbsp; ĐIỀU KHOẢN SỬ DỤNG</div>
+        </div>
+    </footer>
+
+    <button id="back-to-top" aria-label="Lên đầu trang">
+        <i class="ph ph-arrow-up"></i>
+    </button>
+    <script src="shared.js"></script>
+    <script>
+        const navWrapper = document.getElementById('navbar-wrapper');
+        window.addEventListener('scroll', () => {
+            navWrapper.classList.toggle('scrolled', window.scrollY > 20);
+        }, { passive: true });
+    </script>
+</body>
+</html>

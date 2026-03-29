@@ -1,0 +1,1010 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Triển lãm 30 Năm Đoàn Trường | Trang chủ</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Newsreader:ital,opsz,wght@0,6..72,400..700;1,6..72,400..700&display=swap" rel="stylesheet">
+
+    <script src="https://unpkg.com/@phosphor-icons/web"></script>
+
+    <link rel="stylesheet" href="shared.css">
+
+    <style>
+        /* ================== NAVBAR WRAPPER ================== */
+        .navbar-wrapper {
+            position: sticky; top: 0; z-index: 1000;
+            background: rgba(255,255,255,0.92);
+            backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px);
+            border-bottom: 1px solid #e2e8f0; transition: box-shadow 0.35s ease;
+        }
+        .navbar-wrapper.scrolled { box-shadow: 0 4px 16px rgba(0,0,0,0.10); }
+
+        /* ================== HERO ================== */
+        .hero {
+            background: linear-gradient(135deg, #1e3a8a 0%, #3b82f6 100%);
+            color: white; padding: 90px 0 80px; border-radius: 0 0 24px 24px;
+        }
+        .hero-content { display: flex; justify-content: space-between; align-items: center; gap: 40px; }
+        .hero-text { max-width: 50%; animation: heroSlideIn 0.7s cubic-bezier(0.4,0,0.2,1) both; }
+        
+        @keyframes heroSlideIn {
+            from { opacity: 0; transform: translateX(-30px); }
+            to   { opacity: 1; transform: translateX(0); }
+        }
+
+        .hero-title {
+            font-family: var(--font-serif); font-size: 4rem; line-height: 1.1;
+            margin-bottom: 20px; font-weight: 500; font-style: italic;
+        }
+        .hero-subtitle { font-size: 1.05rem; margin-bottom: 32px; opacity: 0.92; line-height: 1.7; }
+        .hero-actions { display: flex; gap: 14px; flex-wrap: wrap; }
+
+        .hero-images {
+            display: grid; grid-template-columns: 1fr 1fr; gap: 10px; width: 44%;
+            animation: heroSlideInRight 0.75s 0.15s cubic-bezier(0.4,0,0.2,1) both;
+        }
+        @keyframes heroSlideInRight {
+            from { opacity: 0; transform: translateX(30px); }
+            to   { opacity: 1; transform: translateX(0); }
+        }
+        .hero-images img {
+            width: 100%; border-radius: 10px; object-fit: cover;
+            border: 3px solid rgba(255,255,255,0.22);
+            transition: transform 0.4s ease, box-shadow 0.4s ease;
+        }
+        .hero-images img:hover { transform: scale(1.04) rotate(-1deg); box-shadow: 0 12px 30px rgba(0,0,0,0.25); }
+
+        .hero-stat-float {
+            display: inline-flex; align-items: center; gap: 10px;
+            background: rgba(255,255,255,0.18); backdrop-filter: blur(8px);
+            border: 1px solid rgba(255,255,255,0.28); padding: 10px 18px;
+            border-radius: 50px; font-size: 0.85rem; font-weight: 600;
+            margin-top: 28px; animation: floatPulse 3s ease-in-out infinite;
+        }
+        @keyframes floatPulse {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-4px); }
+        }
+        .hero-stat-float .dot {
+            width: 8px; height: 8px; background: #4ade80; border-radius: 50%;
+            box-shadow: 0 0 0 0 rgba(74,222,128,0.5); animation: pulse-dot 1.8s ease-in-out infinite;
+        }
+        @keyframes pulse-dot {
+            0% { box-shadow: 0 0 0 0 rgba(74,222,128,0.6); }
+            70% { box-shadow: 0 0 0 8px rgba(74,222,128,0); }
+            100% { box-shadow: 0 0 0 0 rgba(74,222,128,0); }
+        }
+
+        /* ================== MAIN LAYOUT (FLEXBOX CHỐNG VỠ) ================== */
+        .main-content {
+            display: flex; gap: 50px; padding: 80px 0 20px; align-items: flex-start;
+        }
+
+        /* ================== TIMELINE NAV ================== */
+        .interactive-timeline { 
+            flex: 1; display: flex; gap: 40px; align-items: flex-start; 
+            min-width: 0; /* Bắt buộc để flex item không bị phình to */
+        }
+        .timeline-nav {
+            position: relative; display: flex; flex-direction: column;
+            align-items: center; gap: 20px; padding-top: 10px; min-width: 80px; flex-shrink: 0;
+        }
+        .timeline-nav-line {
+            position: absolute; left: 50%; transform: translateX(-50%);
+            top: 20px; bottom: 20px; width: 2px; background-color: #e2e8f0; z-index: 0;
+        }
+        .timeline-nav-node {
+            position: relative; z-index: 2; width: 48px; height: 48px;
+            background-color: #ffffff; color: #64748b; border: 2px solid #cbd5e1;
+            border-radius: 50%; font-size: 1.15rem; font-weight: 600;
+            font-family: var(--font-serif); cursor: pointer;
+            transition: all 0.4s cubic-bezier(0.4,0,0.2,1);
+            display: flex; align-items: center; justify-content: center;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.03);
+        }
+        .timeline-nav-node:hover {
+            border-color: var(--accent-blue); color: var(--accent-blue);
+            transform: translateY(-3px); box-shadow: 0 8px 20px rgba(59,130,246,0.15);
+        }
+        .timeline-nav-node.active {
+            background-color: var(--primary-blue); border-color: var(--primary-blue);
+            color: #ffffff; transform: scale(1.15); box-shadow: 0 8px 25px rgba(30,58,138,0.35);
+        }
+        .timeline-nav-node.active::after {
+            content: ''; position: absolute; top: -8px; left: -8px; right: -8px; bottom: -8px;
+            border: 1.5px solid var(--primary-blue); border-radius: 50%; opacity: 0;
+            animation: pulseRing 2s infinite cubic-bezier(0.215, 0.61, 0.355, 1);
+        }
+        @keyframes pulseRing {
+            0% { transform: scale(0.7); opacity: 0.6; }
+            100% { transform: scale(1.2); opacity: 0; }
+        }
+        .timeline-nav-dot {
+            position: relative; z-index: 1; width: 6px; height: 6px;
+            background-color: #cbd5e1; border-radius: 50%; margin: -6px 0; box-shadow: 0 0 0 4px #ffffff;
+        }
+
+        .timeline-content-area { 
+            flex: 1; position: relative; 
+            min-width: 0; 
+        }
+        .timeline-panel { display: none; }
+        .timeline-panel.active { display: block; animation: panelReveal 0.5s cubic-bezier(0.4,0,0.2,1) both; }
+        @keyframes panelReveal {
+            from { opacity: 0; transform: translateY(20px); filter: blur(4px); }
+            to   { opacity: 1; transform: translateY(0); filter: blur(0); }
+        }
+
+        .timeline-title {
+            font-family: var(--font-serif); font-size: 2.6rem; color: var(--primary-blue);
+            margin-bottom: 8px; font-weight: 500;
+        }
+        .timeline-date {
+            color: var(--accent-red); font-weight: 700; font-size: 1.1rem; letter-spacing: 1.5px;
+            margin-bottom: 30px; display: flex; align-items: center; gap: 12px;
+        }
+        .timeline-date::before { content: ''; display: inline-block; width: 40px; height: 2px; background: var(--accent-red); }
+
+        /* ================== EDITORIAL LAYOUT ================== */
+        .editorial-content {
+            color: #334155; font-size: 1.05rem; line-height: 1.8; text-align: justify; margin-bottom: 30px;
+        }
+        .editorial-content p { margin-bottom: 1.2rem; }
+        .editorial-content::after { content: ""; display: table; clear: both; } 
+        
+        .dropcap {
+            float: left; font-size: 4rem; line-height: 0.8;
+            font-family: var(--font-serif); color: var(--primary-blue);
+            margin: 0.3rem 0.6rem 0 0;
+        }
+        .article-quote {
+            font-family: var(--font-serif); font-style: italic; font-size: 1.4rem; line-height: 1.5;
+            color: var(--accent-red); border-left: 4px solid var(--accent-red);
+            margin: 2rem 0; background: var(--bg-light); padding: 1.5rem; border-radius: 0 12px 12px 0;
+        }
+        .editorial-content img {
+            max-width: 100%; border-radius: 12px; box-shadow: 0 4px 15px rgba(0,0,0,0.08); object-fit: cover;
+        }
+        .img-float-left { float: left; width: 45%; margin: 0.5rem 1.5rem 1rem 0; }
+        .img-float-right { float: right; width: 45%; margin: 0.5rem 0 1rem 1.5rem; }
+        .img-full-width { width: 100%; height: auto; margin: 1.5rem 0; }
+        
+        .article-image-row { 
+            display: grid; 
+            grid-template-columns: repeat(auto-fit, minmax(0, 1fr)); 
+            gap: 20px; 
+            margin: 1.5rem 0; 
+        }
+        .article-image-row img { 
+            width: 100%; height: 100%;
+            aspect-ratio: 4/3; 
+            object-fit: cover; 
+        }
+
+        /* ================== THIẾT KẾ BOX THỐNG KÊ (INFO-CARD) ================== */
+        .info-card {
+            border-top: 1px solid #e2e8f0; padding-top: 25px;
+        }
+        .info-card .stats-grid {
+            display: grid !important; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 15px;
+        }
+        .info-card .stat-box {
+            display: flex; align-items: flex-start; gap: 15px;
+            background: #f8fafc; border: 1px solid #e2e8f0;
+            padding: 16px; border-radius: 12px; transition: all 0.3s ease;
+        }
+        .info-card .stat-box:hover {
+            background: #ffffff; transform: translateY(-3px);
+            box-shadow: 0 8px 20px rgba(30, 58, 138, 0.08); border-color: var(--accent-blue);
+        }
+        .info-card .stat-box i {
+            font-size: 1.6rem; color: var(--primary-blue); background: white;
+            padding: 10px; border-radius: 10px; box-shadow: 0 2px 8px rgba(0,0,0,0.04); flex-shrink: 0;
+        }
+        .info-card .stat-box div {
+            font-size: 0.75rem; font-weight: 700; color: var(--primary-blue);
+            text-transform: uppercase; letter-spacing: 0.5px; line-height: 1.4;
+        }
+        .info-card .stat-box span {
+            display: block; margin-top: 4px; color: #475569;
+            font-weight: 400; font-size: 0.85rem; text-transform: none; letter-spacing: normal;
+        }
+
+        /* ================== SIDEBAR (BỌC THÉP) ================== */
+        .sidebar { 
+            width: 320px; flex-shrink: 0; position: sticky; top: 100px;
+        }
+        .message-card {
+            background-color: var(--bg-light); padding: 25px; border-radius: 18px;
+            border: 1px solid #e2e8f0; transition: box-shadow 0.3s ease;
+            box-sizing: border-box; overflow: hidden; width: 100%;
+        }
+        .message-card:hover { box-shadow: var(--shadow-md); }
+        .message-card h3 {
+            font-family: var(--font-serif); font-size: 1.45rem; color: var(--primary-blue);
+            margin-bottom: 18px; display: flex; align-items: center; gap: 10px; font-weight: 500;
+        }
+        .message-stats { margin: 22px 0; display: flex; flex-direction: column; gap: 14px; }
+        .stat-row {
+            display: flex; justify-content: space-between; align-items: center; font-size: 0.875rem;
+            color: #64748b; border-bottom: 1px dashed #cbd5e1; padding-bottom: 8px; transition: all 0.2s ease; border-radius: 6px;
+        }
+        .stat-row:last-child { border-bottom: none; }
+        .stat-row:hover { color: var(--primary-blue); padding: 4px 8px 4px; margin: 0 -8px; background: white; border-bottom-color: transparent; }
+        .stat-label { display: flex; align-items: center; gap: 8px; }
+        .stat-label .ph { font-size: 1rem; color: #94a3b8; }
+        .stat-row strong { color: var(--text-heading); font-size: 1rem; }
+
+        .video-thumbnail {
+            position: relative; border-radius: 10px; overflow: hidden; cursor: pointer;
+            aspect-ratio: 16/9; background: #0f172a;
+        }
+        .video-thumbnail img { width: 100%; height: 100%; object-fit: cover; transition: transform 0.3s ease; }
+        .video-thumbnail:hover img { transform: scale(1.03); }
+        .play-btn {
+            position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%);
+            width: 50px; height: 50px; background: rgba(30, 58, 138, 0.9); color: white;
+            border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 1.5rem;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.3); transition: background 0.2s;
+        }
+        .video-thumbnail:hover .play-btn { background: #dc2626; }
+
+        /* ================== CÁC SECTION MỞ RỘNG ================== */
+        .home-pillars { margin-top: 40px; }
+        .section-heading { text-align: center; margin-bottom: 50px; }
+        .section-heading h2 {
+            font-family: var(--font-serif); font-style: italic; font-size: 2.5rem; 
+            color: var(--primary-blue); font-weight: 500; margin-bottom: 10px;
+        }
+        .section-heading p { color: #64748b; font-size: 0.95rem; }
+        
+        .pillar-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 30px; }
+        .pillar-card {
+            background: #ffffff; border: 1px solid #e2e8f0; border-radius: 16px; 
+            padding: 30px; transition: all 0.3s ease;
+        }
+        .pillar-card:hover { transform: translateY(-8px); box-shadow: 0 12px 30px rgba(0,0,0,0.06); border-color: var(--accent-blue); }
+        .pillar-icon {
+            width: 50px; height: 50px; background: var(--bg-light); border-radius: 12px;
+            display: flex; align-items: center; justify-content: center;
+            font-size: 1.8rem; color: var(--accent-blue); margin-bottom: 20px;
+        }
+        .pillar-card h3 { font-size: 1.2rem; color: var(--text-heading); margin-bottom: 12px; font-weight: 600; }
+        .pillar-card p { color: #64748b; font-size: 0.9rem; line-height: 1.6; margin-bottom: 20px; }
+        .pillar-link {
+            font-size: 0.85rem; font-weight: 600; color: var(--accent-red); 
+            display: inline-flex; align-items: center; gap: 5px; text-transform: uppercase;
+        }
+
+        .home-stats { margin-top: 100px; padding: 80px 40px; background: var(--bg-light); border-radius: 24px; }
+        .stats-grid-main { display: grid; grid-template-columns: repeat(4, 1fr); gap: 30px; text-align: center; margin-top: 40px; }
+        .stat-item h3 {
+            font-family: var(--font-serif); font-size: 3.8rem; color: var(--accent-red);
+            font-weight: 500; margin-bottom: 10px; display: flex; align-items: center; justify-content: center;
+        }
+        .stat-item p { color: #64748b; font-size: 0.9rem; font-weight: 700; text-transform: uppercase; letter-spacing: 1px; }
+
+        .home-cta {
+            margin-top: 100px; margin-bottom: 80px; padding: 80px 20px;
+            background: linear-gradient(135deg, #0f172a 0%, #1e3a8a 100%);
+            border-radius: 24px; text-align: center; color: white; position: relative; overflow: hidden;
+        }
+        .home-cta::before {
+            content: '\275D'; position: absolute; top: -20px; left: 5%;
+            font-size: 15rem; color: rgba(255,255,255,0.03); font-family: serif; line-height: 1;
+        }
+        .cta-content { position: relative; z-index: 1; max-width: 700px; margin: 0 auto; }
+        .cta-content h2 { font-family: var(--font-serif); font-style: italic; font-size: 3rem; margin-bottom: 20px; font-weight: 500; }
+        .cta-content p { font-size: 1.05rem; opacity: 0.9; margin-bottom: 35px; line-height: 1.7; }
+        .cta-buttons { display: flex; justify-content: center; gap: 15px; }
+
+        /* Style cho nút */
+        .btn-outline-white {
+            background-color: transparent; color: #ffffff !important; border: 1px solid rgba(255, 255, 255, 0.8);
+        }
+        .btn-outline-white:hover {
+            background-color: rgba(255, 255, 255, 0.15); border-color: #ffffff; color: #ffffff !important;
+        }
+        .btn-white {
+            background-color: #ffffff; color: var(--primary-blue) !important; border: 1px solid #ffffff; white-space: nowrap;
+        }
+        .btn-white:hover { background-color: #f1f5f9; transform: translateY(-2px); }
+        .home-cta .btn { white-space: nowrap; }
+
+        /* ================== RESPONSIVE MOBILE & TABLET ================== */
+        @media (max-width: 992px) {
+            .hero-content { flex-direction: column; text-align: center; }
+            .hero-text { max-width: 100%; }
+            .hero-images { width: 100%; max-width: 480px; margin: 0 auto; }
+            .main-content { flex-direction: column; gap: 40px; padding: 50px 0 20px; }
+            .sidebar { width: 100%; position: relative; top: 0; }
+        }
+        @media (max-width: 768px) {
+            .hero { padding: 60px 0; }
+            .hero-title { font-size: 3rem; }
+            
+            /* Timeline Nav ngang */
+            .interactive-timeline { flex-direction: column; gap: 30px; }
+            .timeline-nav { flex-direction: row; overflow-x: auto; width: 100%; justify-content: flex-start; padding-bottom: 10px; border-bottom: 1px solid #e2e8f0; }
+            .timeline-nav-line { top: 50%; left: 0; right: 0; bottom: auto; height: 2px; width: 100%; transform: translateY(-50%); background: #cbd5e1; }
+            .timeline-nav-node { width: 42px; height: 42px; font-size: 0.95rem; flex-shrink: 0; }
+            .timeline-nav-dot { display: none; }
+            .timeline-title { font-size: 1.9rem; }
+            
+            /* Bài báo trên mobile */
+            .img-float-left, .img-float-right { float: none; width: 100%; margin: 1rem 0; }
+            .article-image-row { grid-template-columns: 1fr; } /* Ảnh xếp dọc trên đt */
+            
+            /* Các Grid mở rộng thành 1 cột */
+            .pillar-grid { grid-template-columns: 1fr; }
+            .stats-grid-main { grid-template-columns: repeat(2, 1fr); }
+            .stat-item h3 { font-size: 2.8rem; }
+            
+            /* Nút CTA trên mobile */
+            .home-cta { padding: 50px 20px; border-radius: 0; }
+            .cta-content h2 { font-size: 2.2rem; }
+            .cta-buttons { flex-direction: column; width: 100%; gap: 15px; }
+            .cta-buttons .btn { width: 100%; white-space: normal; height: auto; padding: 14px 20px; }
+            .btn-white { color: #1e3a8a !important; }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="navbar-wrapper" id="navbar-wrapper">
+        <div class="container">
+            <nav class="navbar" style="position:static; backdrop-filter:none; background:transparent; box-shadow:none; border-bottom:none;">
+                <div class="nav-brand">Triển lãm 30 Năm</div>
+                <button class="nav-toggle" aria-label="Menu" aria-expanded="false">
+                    <span></span><span></span><span></span>
+                </button>
+                <ul class="nav-links">
+                    <li><a href="index.html" class="active">Trang chủ</a></li>
+                    <li><a href="lichsu.html">Lịch sử</a></li>
+                    <li><a href="cocau.html">Cơ cấu</a></li>
+                    <li><a href="phongtrao.html">Phong trào</a></li>
+                    <li><a href="thanhtich.html">Thành tích</a></li>
+                    <li><a href="gockyuc.html">Góc ký ức</a></li>
+                </ul>
+            </nav>
+        </div>
+    </div>
+
+    <div class="container">
+        <header class="hero">
+            <div class="container hero-content">
+                <div class="hero-text">
+                    <div class="hero-badge">CÔNG TRÌNH THANH NIÊN 2024</div>
+                    <h1 class="hero-title">30 Năm<br>Một chặng đường</h1>
+                    <p class="hero-subtitle">
+                        Không gian triển lãm trực tuyến di sản Đoàn TNCS Hồ Chí Minh Trường ĐH KHXH&NV, ĐHQG-HCM, tôn vinh truyền thống và kiến tạo tương lai.
+                    </p>
+                    <div class="hero-actions">
+                        <a href="lichsu.html" class="btn btn-primary">KHÁM PHÁ NGAY →</a>
+                        <a href="gockyuc.html" class="btn btn-outline-white">Góc ký ức</a>
+                    </div>
+                    <div class="hero-stat-float">
+                        <span class="dot"></span>
+                        Triển lãm đang hoạt động · 2.024 lượt truy cập
+                    </div>
+                </div>
+                
+                <div class="hero-images">
+                    <img src="https://hcmussh.edu.vn/img/news/44369035.jpg?t=44369059" alt="Ảnh tập thể">
+                    <div style="display:flex; flex-direction:column; gap:10px;">
+                        <img src="https://hcmussh.edu.vn/img/news/1411.jpg" alt="Ảnh hội nghị">
+                        <img src="https://hcmussh.edu.vn/img/news/LehDAZ-VC5lB1_cHVv14K0jL.JPG" alt="Ảnh phát biểu">
+                    </div>
+                </div>
+            </div>
+        </header>
+    </div>
+
+    <main>
+        <div class="container main-content">
+
+            <div class="interactive-timeline reveal">
+                <div class="timeline-nav">
+                    <div class="timeline-nav-line"></div>
+                    <button class="timeline-nav-node active" data-target="doan-1" title="1931–1936">I</button>
+                    <div class="timeline-nav-dot"></div>
+                    <button class="timeline-nav-node" data-target="doan-2" title="1937–1939">II</button>
+                    <div class="timeline-nav-dot"></div>
+                    <button class="timeline-nav-node" data-target="doan-3" title="1939–1941">III</button>
+                    <div class="timeline-nav-dot"></div>
+                    <button class="timeline-nav-node" data-target="doan-4" title="1941–1956">IV</button>
+                    <div class="timeline-nav-dot"></div>
+                    <button class="timeline-nav-node" data-target="doan-5" title="1956–1970">V</button>
+                    <div class="timeline-nav-dot"></div>
+                    <button class="timeline-nav-node" data-target="doan-6" title="1970–1976">VI</button>
+                    <div class="timeline-nav-dot"></div>
+                    <button class="timeline-nav-node" data-target="doan-7" title="1976–Nay">VII</button>
+                </div>
+
+                <div class="timeline-content-area">
+
+                    <div class="timeline-panel active" id="doan-1">
+                        <h2 class="timeline-title">Đoàn TNCS Việt Nam, Đoàn TNCS Đông Dương</h2>
+                        <div class="timeline-date">1931 – 1936</div>
+                        
+                        <div class="editorial-content">
+                            <h4 style="color: var(--primary-blue); font-weight: 700; font-size: 1.1rem; margin-top: 1.5rem; margin-bottom: 0.8rem;">1.1. Giai đoạn 1931 - 1932: Khủng bố trắng sau Xô Viết Nghệ Tĩnh, tổ chức bị tổn thất nặng nề</h4>
+                            <p><span class="dropcap">S</span>au cao trào cách mạng 1930–1931, đặc biệt là Phong trào Xô viết Nghệ Tĩnh, thực dân Pháp tiến hành một chiến dịch đàn áp quy mô lớn nhằm tiêu diệt các lực lượng cách mạng. Hàng loạt cán bộ, đảng viên và đoàn viên thanh niên bị bắt giam, tra tấn hoặc xử tử. Các cơ sở của Đoàn TNCS Đông Dương bị phá vỡ, hệ thống tổ chức gần như tan rã ở nhiều địa phương.</p>
+                            <p>Trong hoàn cảnh đó, phong trào thanh niên cách mạng rơi vào tình trạng hết sức khó khăn. Hoạt động công khai gần như không thể thực hiện, các lực lượng phải rút vào hoạt động bí mật để bảo toàn lực lượng. Tuy nhiên, dù bị tổn thất nặng nề, tinh thần đấu tranh của thanh niên vẫn không bị dập tắt, mà tiếp tục được nuôi dưỡng trong lòng quần chúng.</p>
+                            
+                            <div class="article-image-row" style="margin-top: 25px; margin-bottom: 25px; align-items: start;">
+                                <figure style="margin: 0; display: flex; flex-direction: column;">
+                                    <img src="https://i.postimg.cc/tTTcZQDf/image.png" alt="Phong trào Xô viết Nghệ Tĩnh" style="height: auto; aspect-ratio: 4/3;">
+                                    <figcaption style="font-size: 0.85rem; color: #64748b; text-align: center; margin-top: 10px; font-style: italic; line-height: 1.5;">Tranh “Phong trào Xô viết Nghệ Tĩnh”, tác giả Nguyễn Đức Nùng, trưng bày tại Bảo tàng Lịch sử Quốc gia, đăng trên Báo Nhân dân. (Ảnh: baotanglichsu.vn)</figcaption>
+                                </figure>
+                                <figure style="margin: 0; display: flex; flex-direction: column;">
+                                    <img src="https://i.postimg.cc/G90g5BRk/image.png" alt="Vụ Hà thành đầu độc" style="height: auto; aspect-ratio: 4/3;">
+                                    <figcaption style="font-size: 0.85rem; color: #64748b; text-align: center; margin-top: 10px; font-style: italic; line-height: 1.5;">Những thanh niên yêu nước bị Pháp bắt trong vụ Hà thành đầu độc (Nguồn: Báo Thanh niên)</figcaption>
+                                </figure>
+                            </div>
+
+                            <h4 style="color: var(--primary-blue); font-weight: 700; font-size: 1.1rem; margin-top: 2rem; margin-bottom: 0.8rem;">1.2. Giai đoạn 1932 - 1934: Hoạt động bí mật và khôi phục lực lượng</h4>
+                            <p>Từ năm 1932, các tổ chức cách mạng từng bước khôi phục lại lực lượng sau thời kỳ khủng bố. Những đoàn viên còn lại bí mật gây dựng lại cơ sở, kết nối lại các nhóm thanh niên yêu nước và tiếp tục truyền bá tư tưởng cách mạng trong quần chúng.</p>
+                            <p>Hoạt động của Đoàn trong giai đoạn này chủ yếu diễn ra dưới hình thức bí mật như rải truyền đơn, tổ chức các nhóm học tập chính trị nhỏ, xây dựng cơ sở trong công nhân và nông dân. Dù quy mô còn hạn chế, nhưng đây là giai đoạn có ý nghĩa quan trọng trong việc duy trì “mạch sống” của phong trào thanh niên, tạo tiền đề cho sự phục hồi mạnh mẽ về sau.</p>
+
+                            <h4 style="color: var(--primary-blue); font-weight: 700; font-size: 1.1rem; margin-top: 2rem; margin-bottom: 0.8rem;">1.3. Giai đoạn từ năm 1935 - 1936: Phục hồi tổ chức, bước ngoặt quan trọng và chuẩn bị chuyển hướng đấu tranh</h4>
+                            <p>Năm 1935 đánh dấu bước ngoặt quan trọng với việc Đảng Cộng sản Đông Dương tổ chức Đại hội lần thứ nhất của Đảng Cộng sản Đông Dương. Đại hội đã đề ra nhiệm vụ khôi phục hệ thống tổ chức của Đảng và các đoàn thể quần chúng, trong đó có tổ chức thanh niên.</p>
+                            <p>Dưới sự lãnh đạo của Đảng, Đoàn TNCS Đông Dương từng bước được củng cố về tổ chức, thống nhất về phương hướng hoạt động và mở rộng lực lượng. Đây là nền tảng quan trọng giúp phong trào thanh niên thoát khỏi tình trạng phân tán, tiến tới phát triển ổn định hơn trong những năm tiếp theo.</p>
+                            <p>Năm 1936, tình hình quốc tế có nhiều biến chuyển với sự thắng cử của Mặt trận Bình dân Pháp, tạo ra những điều kiện thuận lợi hơn cho phong trào cách mạng ở các thuộc địa. Trước bối cảnh đó, Đảng chủ trương chuyển hướng đấu tranh sang đòi các quyền dân sinh, dân chủ.</p>
+                            <p>Theo định hướng mới, hoạt động của Đoàn TNCS Đông Dương cũng có sự thay đổi rõ rệt. Thanh niên được khuyến khích tham gia vào các phong trào hợp pháp hoặc nửa hợp pháp như báo chí, hội họp, vận động quần chúng. Đây là bước chuẩn bị quan trọng, mở đường cho cao trào dân chủ 1936–1939 phát triển mạnh mẽ sau này.</p>
+                        </div>
+
+                        <div class="info-card">
+                            <div class="stats-grid">
+                                <div class="stat-box">
+                                    <i class="ph ph-shield-warning"></i>
+                                    <div>BỐI CẢNH<br><span>Khủng bố trắng</span></div>
+                                </div>
+                                <div class="stat-box">
+                                    <i class="ph ph-mask-happy"></i>
+                                    <div>HOẠT ĐỘNG<br><span>Rút vào bí mật</span></div>
+                                </div>
+                                <div class="stat-box">
+                                    <i class="ph ph-arrows-merge"></i>
+                                    <div>BƯỚC NGOẶT<br><span>Đại hội Đảng I (1935)</span></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="timeline-panel" id="doan-2">
+                        <h2 class="timeline-title">Đoàn Thanh niên Dân chủ Đông Dương</h2>
+                        <div class="timeline-date">1937 – 1939</div>
+                        
+                        <div class="editorial-content">
+                            <figure class="img-float-right" style="margin-top: 5px; margin-bottom: 20px; width: 45%;">
+                                <img src="https://i.postimg.cc/brbfrfNm/image.png" alt="Báo Bạn Dân" style="height: auto; aspect-ratio: 3/4;">
+                                <figcaption style="font-size: 0.85rem; color: #64748b; text-align: center; margin-top: 8px; font-style: italic; line-height: 1.5;">Báo Bạn Dân, do Đào Duy Kỳ (đồng chí là Quyền Bí thư Xứ ủy Bắc Kỳ, sau này là Phó Giám đốc trường Đảng Nguyễn Ái Quốc) quản lý và làm chủ bút. <br> (Nguồn: Ảnh tư liệu BTLSQG).</figcaption>
+                            </figure>
+
+                            <p><span class="dropcap">S</span>au khi Mặt trận Nhân dân Pháp thắng cử (6/1936), chính phủ phái tả lên cầm quyền, tạo điều kiện thuận lợi cho phong trào cách mạng. Tháng 7/1936, Ban Chấp hành Trung ương Đảng Cộng sản Đông Dương đề ra đường lối mới: trước mắt chống phản động thuộc địa, đòi tự do, dân chủ, cải thiện đời sống; thành lập Mặt trận Nhân dân Phản đế (sau là Mặt trận Thống nhất Dân chủ).</p>
+                            
+                            <p>Theo đó, trong thời kỳ cách mạng từ giữa năm 1936 đến mùa thu năm 1939, Đoàn Thanh niên Cộng sản Đông Dương mang tên Đoàn Thanh niên Dân chủ Đông Dương phù hợp với nhiệm vụ chính trị qua các nghị quyết của Đảng như trên đã nêu. Đoàn Thanh niên Dân chủ hoạt động công khai, có cơ quan báo chí riêng, đó là các tờ “Bạn dân”, “Thế giới”, “Mới” phát hành ở cả ba miền đất nước. Đoàn đã xây dựng đội ngũ của mình gồm hàng vạn đoàn viên, đấu tranh kiên cường dưới ngọn cờ của Đảng, tiếp nối truyền thống vẻ vang của Đoàn Thanh niên Cộng sản Đông Dương (1931 – 1935).</p>
+                            
+                            <p>Ngoài việc phát hành báo, tổ chức Đoàn còn lập các Hội đọc sách, Hội văn nghệ, Hội thể thao, đặc biệt là hình thành các nhóm nghiên cứu chủ nghĩa Mác.</p>
+                            
+                            <blockquote class="article-quote">Nhiều tác phẩm chính trị, văn học của C.Mác. F.Angghen, V.I.Lênin, Goocki… như: “Tuyên ngôn Đảng cộng sản”, “Tư bản”, “Nhà nước là gì?”, “Người mẹ”… cũng như các cuốn sách do các chiến sĩ cộng sản Việt Nam viết như: “Vấn đề dân cầy” của Qua Ninh và Vân Đình, “Mác xít phổ thông” của Hải Triều và Thơ Tố Hữu được đông đảo đoàn viên, thanh niên hân hoan đón đọc.</blockquote>
+                            
+                            <p>Được sự quan tâm của các Xứ ủy Đảng, phong trào TN và tổ chức Đoàn được củng cố, phát triển sâu rộng, có hệ thống từ cơ sở lên đến tỉnh, thành và xứ. Tuy nhiên, đến tháng 9/1939, đại chiến thế giới lần thứ 2 bùng nổ. Thực dân Pháp thẳng tay thi hành chính sách đàn áp, khủng bố phong trào đấu tranh của các tầng lớp nhân dân và TN ta. Tổ chức Đoàn phải trở lại hoạt động bí mật.</p>
+                            
+                            <div style="clear: both;"></div> 
+                        </div>
+
+                        <div class="info-card">
+                            <div class="stats-grid">
+                                <div class="stat-box">
+                                    <i class="ph ph-newspaper"></i>
+                                    <div>BÁO CHÍ<br><span>Bạn dân, Thế giới, Mới</span></div>
+                                </div>
+                                <div class="stat-box">
+                                    <i class="ph ph-books"></i>
+                                    <div>PHONG TRÀO<br><span>Nghiên cứu Mác-xít</span></div>
+                                </div>
+                                <div class="stat-box">
+                                    <i class="ph ph-users-three"></i>
+                                    <div>QUY MÔ<br><span>Hàng vạn đoàn viên</span></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="timeline-panel" id="doan-3">
+                        <h2 class="timeline-title">Đoàn Thanh niên Phản đế Đông Dương</h2>
+                        <div class="timeline-date">11/1939 – 1941</div>
+                        
+                        <div class="editorial-content">
+                            <p><span class="dropcap">T</span>háng 11/1939, Hội nghị Trung ương lần thứ 6 của Đảng họp tại Bà Điểm (Hóc Môn, Gia Định) đã xác định nhiệm vụ giải phóng dân tộc là nhiệm vụ hàng đầu của cách mạng Đông Dương, đồng thời chủ trương thành lập Mặt trận Thống nhất Dân tộc Phản đế Đông Dương nhằm tập hợp rộng rãi các lực lượng chống đế quốc. Trên cơ sở đó, tổ chức thanh niên cũng được điều chỉnh cho phù hợp với tình hình mới: Đoàn Thanh niên Dân chủ Đông Dương đổi tên thành Đoàn Thanh niên Phản đế Đông Dương, đánh dấu bước chuyển từ đấu tranh dân chủ công khai sang đấu tranh cách mạng mang tính chất giải phóng dân tộc, bí mật và quyết liệt hơn.</p>
+                            
+                            <p>Trong bối cảnh bị thực dân Pháp đàn áp và sau đó là sự xâm lược của phát xít Nhật, công tác Đoàn tập trung trước hết vào việc củng cố tổ chức theo hướng bí mật, chặt chẽ và có kỷ luật cao. Các cơ sở Đoàn được xây dựng và phát triển ở nhiều địa bàn quan trọng như nông thôn, nhà máy, trường học, hình thành mạng lưới liên kết từ cơ sở đến cấp trên, bảo đảm duy trì phong trào trong điều kiện khủng bố gắt gao. Việc lựa chọn, thử thách và rèn luyện đoàn viên được đặc biệt chú trọng: những đoàn viên ưu tú từ thời kỳ Dân chủ được sàng lọc, chuyển thành đoàn viên Phản đế; đồng thời thanh niên trong các tổ chức quần chúng được giao nhiệm vụ cụ thể để vừa hoạt động, vừa được bồi dưỡng, tạo nguồn cán bộ cho cách mạng.</p>
+                            
+                            <p>Bên cạnh đó, công tác Đoàn còn hướng mạnh vào giáo dục tinh thần yêu nước, ý chí đấu tranh giải phóng dân tộc và chuẩn bị cho đấu tranh vũ trang. Thanh niên được vận động tham gia các phong trào chống áp bức, tích cực hưởng ứng và đi đầu trong các cuộc khởi nghĩa tiêu biểu như Khởi nghĩa Bắc Sơn, Khởi nghĩa Nam Kỳ và binh biến Đô Lương. Thông qua thực tiễn đấu tranh, lực lượng thanh niên không ngừng trưởng thành cả về tổ chức lẫn ý thức chính trị, từng bước chuyển từ hoạt động chính trị sang kết hợp với đấu tranh vũ trang.</p>
+
+                            <div class="article-image-row" style="margin-top: 25px; margin-bottom: 25px; align-items: start;">
+                                <figure style="margin: 0; display: flex; flex-direction: column;">
+                                    <img src="https://images.hcmcpv.org.vn/res/news/2020/11/24-11-2020-khoi-nghia-bac-son-khoi-nghia-nam-ky-va-bai-hoc-nam-bat-thoi-co-cach-mang-6D25C23.jpg" alt="Du kích Bắc Sơn" style="height: auto; aspect-ratio: 4/3;">
+                                    <figcaption style="font-size: 0.85rem; color: #64748b; text-align: center; margin-top: 10px; font-style: italic; line-height: 1.5;">Du kích tham gia cuộc khởi nghĩa Bắc Sơn, tháng 9-1940 (Ảnh: tư liệu BTLSQG)</figcaption>
+                                </figure>
+                                <figure style="margin: 0; display: flex; flex-direction: column;">
+                                    <img src="https://static.tuoitre.vn/tto/i/s626/2010/11/22/EtfjuRQ8.jpg" alt="Khởi Nghĩa Nam Kỳ" style="height: auto; aspect-ratio: 4/3;">
+                                    <figcaption style="font-size: 0.85rem; color: #64748b; text-align: center; margin-top: 10px; font-style: italic; line-height: 1.5;">Khởi nghĩa Nam Kỳ (Ảnh tư liệu)</figcaption>
+                                </figure>
+                            </div>
+
+                            <div class="article-image-row" style="margin-top: 25px; margin-bottom: 25px; align-items: start;">
+                                <figure style="margin: 0; display: flex; flex-direction: column;">
+                                    <img src="https://baotanglichsu.vn/DataFiles/asset/upload/theo-dong-lich-su/3_11.jpg" alt="Lược đồ Đô Lương" style="height: auto; aspect-ratio: 4/3;">
+                                    <figcaption style="font-size: 0.85rem; color: #64748b; text-align: center; margin-top: 10px; font-style: italic; line-height: 1.5;">Lược đồ cuộc binh biến Đô Lương năm 1941 (Nguồn: Internet)</figcaption>
+                                </figure>
+                                <figure style="margin: 0; display: flex; flex-direction: column;">
+                                    <img src="https://baotanglichsu.vn/DataFiles/Uploaded/image/data%20Hung/thang%201%20nam%202017/binh%20bien%20do%20luong/2.jpg" alt="Nơi đóng quân Đô Lương" style="height: auto; aspect-ratio: 4/3;">
+                                    <figcaption style="font-size: 0.85rem; color: #64748b; text-align: center; margin-top: 10px; font-style: italic; line-height: 1.5;">Nơi đóng quân của lãnh đạo cuộc binh biến Đô Lương tại Chợ Rạng, Thanh Chương, Nghệ An (Nguồn: Internet)</figcaption>
+                                </figure>
+                            </div>
+
+                            <p>Như vậy, trong giai đoạn 1939–1941, công tác Đoàn đã có sự chuyển biến căn bản: từ hoạt động công khai sang bí mật, từ đấu tranh dân chủ sang đấu tranh giải phóng dân tộc; đồng thời đóng vai trò quan trọng trong việc xây dựng lực lượng, đào tạo cán bộ và chuẩn bị cho cao trào cách mạng tiến tới tổng khởi nghĩa giành chính quyền.</p>
+                        </div>
+
+                        <div class="info-card">
+                            <div class="stats-grid">
+                                <div class="stat-box">
+                                    <i class="ph ph-sword"></i>
+                                    <div>PHƯƠNG THỨC<br><span>Bí mật, Vũ trang</span></div>
+                                </div>
+                                <div class="stat-box">
+                                    <i class="ph ph-fire"></i>
+                                    <div>TIÊN PHONG<br><span>Các cuộc khởi nghĩa</span></div>
+                                </div>
+                                <div class="stat-box">
+                                    <i class="ph ph-target"></i>
+                                    <div>MỤC TIÊU<br><span>Giải phóng dân tộc</span></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="timeline-panel" id="doan-4">
+                        <h2 class="timeline-title">Đoàn Thanh niên Cứu quốc Việt Nam</h2>
+                        <div class="timeline-date">5/1941 – 1956</div>
+                        
+                        <div class="editorial-content">
+                            <h4 style="color: var(--primary-blue); font-weight: 700; font-size: 1.1rem; margin-top: 1.5rem; margin-bottom: 0.8rem;">4.1. 5/1941 Thành lập Đội Thiếu niên cứu quốc Việt Nam</h4>
+                            <p><span class="dropcap">G</span>iai đoạn này gắn liền với cuộc đấu tranh giải phóng dân tộc và đặt nền móng cho vai trò lịch sử của thanh niên Việt Nam trong cách mạng. Sau khi Hồ Chí Minh về nước (1941), nhiệm vụ cấp bách của cách mạng Việt Nam là giành độc lập dân tộc. Trong bối cảnh đó, thanh niên trở thành lực lượng xung kích, tiên phong trong mọi phong trào đấu tranh. Tháng 5/1941, tại Hội nghị Trung ương 8, Mặt trận Việt Minh được thành lập. Trong hệ thống tổ chức của Việt Minh có Thanh niên Cứu quốc, tổ chức tiền thân của Đoàn TNCS Hồ Chí Minh ngày nay.</p>
+                            
+                            <figure class="img-float-right" style="margin-top: 5px; margin-bottom: 20px; width: 45%;">
+                                <img src="https://ktmt.vnmediacdn.com/thumb_x400x/images/2021/05/15/30-1621050686-ttxvn-1105thieunhi15.jpg" alt="Đội Thiếu niên cứu quốc" style="height: auto; aspect-ratio: 4/3;">
+                                <figcaption style="font-size: 0.85rem; color: #64748b; text-align: center; margin-top: 8px; font-style: italic; line-height: 1.5;">Ảnh: Tư liệu</figcaption>
+                            </figure>
+
+                            <p>Tổ chức Thanh niên Cứu quốc ra đời với mục tiêu tập hợp những thanh niên yêu nước, khơi dậy tinh thần dân tộc và truyền bá tư tưởng cách mạng đến đông đảo quần chúng. Đồng thời, tổ chức còn chuẩn bị lực lượng cho cuộc khởi nghĩa vũ trang giành độc lập dân tộc trong tương lai.</p>
+                            <p>Trong giai đoạn này, thanh niên không chỉ dừng lại ở việc tuyên truyền mà còn trực tiếp tham gia xây dựng các lực lượng cách mạng như Đội tự vệ cứu quốc, Đội tuyên truyền giải phóng và mạng lưới liên lạc bí mật. Nhờ vậy, thanh niên nhanh chóng trở thành lực lượng nòng cốt, đóng vai trò xung kích trong phong trào Việt Minh.</p>
+                            <div style="clear: both;"></div>
+
+                            <h4 style="color: var(--primary-blue); font-weight: 700; font-size: 1.1rem; margin-top: 2rem; margin-bottom: 0.8rem;">4.2. Thanh niên trong Tổng khởi nghĩa Tháng Tám 1945</h4>
+                            <p>Năm 1945, khi thời cơ cách mạng đã chín muồi sau nhiều năm chuẩn bị lực lượng và gây dựng phong trào quần chúng, thanh niên trên khắp mọi miền đất nước đã đồng loạt đứng lên, trở thành lực lượng xung kích trong cuộc Tổng khởi nghĩa giành chính quyền. Trong bầu không khí sục sôi của những ngày lịch sử, tuổi trẻ Việt Nam đã mang trong mình niềm tin mãnh liệt vào tương lai độc lập của dân tộc, sẵn sàng dấn thân và hy sinh vì Tổ quốc. Từ thành thị đến nông thôn, từ miền núi đến đồng bằng, hình ảnh những đoàn thanh niên hăng hái tham gia các cuộc mít tinh, biểu tình, diễu hành đã trở thành biểu tượng của tinh thần yêu nước và khát vọng tự do cháy bỏng.</p>
+
+                            <div class="article-image-row" style="margin-top: 25px; margin-bottom: 25px; align-items: start;">
+                                <figure style="margin: 0; display: flex; flex-direction: column;">
+                                    <img src="https://thinhvuongvietnam.com/Content/UploadFiles/EditorFiles/images/2021/Quy3/mot-buoi-dieu-hanh-cua-thanh-nien-tien-phong23082021072124.jpg" alt="Thanh niên Tiền Phong" style="height: auto; aspect-ratio: 4/3;">
+                                    <figcaption style="font-size: 0.85rem; color: #64748b; text-align: center; margin-top: 10px; font-style: italic; line-height: 1.5;">Một buổi diễu hành của Thanh niên Tiền Phong (Ảnh tư liệu)</figcaption>
+                                </figure>
+                                <figure style="margin: 0; display: flex; flex-direction: column;">
+                                    <img src="https://thinhvuongvietnam.com/Content/UploadFiles/EditorFiles/images/2023/Quy3/images302814x2b26082023073231.jpg" alt="Cách mạng Tháng Tám Sài Gòn" style="height: auto; aspect-ratio: 4/3;">
+                                    <figcaption style="font-size: 0.85rem; color: #64748b; text-align: center; margin-top: 10px; font-style: italic; line-height: 1.5;">Cách mạng Tháng Tám tại Sài Gòn (Ảnh tư liệu)</figcaption>
+                                </figure>
+                            </div>
+
+                            <p>Không chỉ dừng lại ở việc cổ vũ tinh thần quần chúng, thanh niên còn trực tiếp tham gia giành chính quyền tại nhiều địa phương, phối hợp cùng các lực lượng cách mạng tổ chức tiếp quản cơ quan hành chính, bảo vệ trật tự xã hội và duy trì hoạt động của chính quyền mới. Ở nhiều nơi, chính thanh niên là những người đi đầu trong việc tuyên truyền, vận động nhân dân ủng hộ chính quyền cách mạng, góp phần củng cố niềm tin của quần chúng vào một tương lai mới. Trước muôn vàn khó khăn của những ngày đầu lập nước, họ tiếp tục đứng ở tuyến đầu để bảo vệ thành quả cách mạng, giữ vững chính quyền non trẻ trước các thế lực thù địch và những thách thức chồng chất.</p>
+                            <p>Thắng lợi của cuộc Tổng khởi nghĩa Tháng Tám đã đưa dân tộc Việt Nam bước sang một trang sử mới. Ngày 2/9/1945, nước Việt Nam Dân chủ Cộng hòa chính thức ra đời, mở ra kỷ nguyên độc lập, tự do cho dân tộc sau hàng chục năm sống dưới ách đô hộ. Sự kiện trọng đại ấy không chỉ là thành quả của toàn dân tộc mà còn in đậm dấu ấn đóng góp to lớn của thế hệ thanh niên Việt Nam. Từ đây, thanh niên tiếp tục khẳng định vai trò tiên phong, trở thành lực lượng xung kích của Nhà nước mới, sẵn sàng đảm nhận những nhiệm vụ lớn lao trong công cuộc xây dựng, bảo vệ và phát triển đất nước. Tinh thần dấn thân, nhiệt huyết và lý tưởng cao đẹp của tuổi trẻ trong mùa thu lịch sử năm 1945 đã trở thành nguồn cảm hứng bền bỉ cho nhiều thế hệ thanh niên Việt Nam về sau.</p>
+
+                            <h4 style="color: var(--primary-blue); font-weight: 700; font-size: 1.1rem; margin-top: 2rem; margin-bottom: 0.8rem;">4.3. Thanh niên trong kháng chiến chống Pháp (1946 - 1954)</h4>
+                            <p>Sau khi đất nước vừa giành được độc lập chưa lâu, thực dân Pháp quay trở lại xâm lược, buộc dân tộc Việt Nam bước vào cuộc kháng chiến trường kỳ, gian khổ. Trong hoàn cảnh đó, thanh niên Việt Nam một lần nữa trở thành lực lượng xung kích, sẵn sàng rời giảng đường, nhà máy, ruộng đồng để lên đường bảo vệ Tổ quốc. Hàng triệu thanh niên hăng hái gia nhập quân đội, tham gia các đơn vị chủ lực, dân quân du kích, góp phần tạo nên sức mạnh to lớn cho cuộc kháng chiến. Cũng trong thời kỳ này, lực lượng Thanh niên xung phong được hình thành và nhanh chóng trở thành biểu tượng của tinh thần dấn thân, sẵn sàng đi bất cứ nơi đâu, làm bất cứ việc gì khi Tổ quốc cần.</p>
+                            
+                            <figure class="img-float-left" style="margin-top: 5px; margin-bottom: 20px; width: 45%;">
+                                <img src="https://file3.qdnd.vn/data/images/0/2024/05/06/upload_2299/anhbaidbp2120520pm.jpg?dpi=150&quality=100&w=870" alt="Bộ đội Điện Biên Phủ" style="height: auto; aspect-ratio: 4/3;">
+                                <figcaption style="font-size: 0.85rem; color: #64748b; text-align: center; margin-top: 8px; font-style: italic; line-height: 1.5;">Bộ đội ta được trang bị chính quy trong chiến dịch Điện Biên Phủ (Nguồn: Bảo tàng lịch sử quốc gia)</figcaption>
+                            </figure>
+
+                            <p>Trong suốt chín năm kháng chiến chống Pháp, thanh niên có mặt trên khắp các chiến trường và tuyến hậu phương. Họ mở đường xuyên rừng, bạt núi để đảm bảo giao thông cho các chiến dịch; vận chuyển lương thực, vũ khí, đạn dược bằng sức người vượt qua núi cao, vực sâu; chăm sóc, cứu chữa thương binh trong điều kiện thiếu thốn trăm bề; đồng thời trực tiếp cầm súng chiến đấu, đối mặt với bom đạn nơi tuyến lửa. Dù phải sống và làm việc trong hoàn cảnh vô cùng gian khổ, thiếu thốn và nguy hiểm, thế hệ thanh niên thời kỳ này vẫn luôn giữ vững ý chí kiên cường, tinh thần lạc quan và niềm tin mãnh liệt vào thắng lợi cuối cùng. Chính sự hy sinh, cống hiến thầm lặng nhưng to lớn của họ đã góp phần quan trọng làm nên sức mạnh của toàn dân tộc, đưa cuộc kháng chiến chống Pháp đi đến thắng lợi vẻ vang.</p>
+                            <div style="clear: both;"></div>
+
+                            <h4 style="color: var(--primary-blue); font-weight: 700; font-size: 1.1rem; margin-top: 2rem; margin-bottom: 0.8rem;">4.4. Thanh niên trong Chiến dịch Điện Biên Phủ (1954)</h4>
+                            <p>Trong Chiến dịch Điện Biên Phủ năm 1954 trận quyết chiến chiến lược mang ý nghĩa lịch sử của dân tộc, thanh niên Việt Nam đã góp phần tạo nên một trong những bản anh hùng ca vĩ đại nhất của thời kỳ kháng chiến chống Pháp. Hàng vạn thanh niên xung phong và dân công hỏa tuyến đã không quản hiểm nguy, ngày đêm bám trụ nơi núi rừng Tây Bắc, mở đường xuyên rừng sâu, vượt dốc cao, bạt núi, san đèo để đảm bảo giao thông phục vụ chiến dịch. Trong điều kiện thiếu thốn phương tiện, họ dùng chính sức người để kéo pháo, vận chuyển vũ khí, đạn dược và hàng nghìn tấn lương thực vào chiến trường, vượt qua mưa bom bão đạn và địa hình hiểm trở. Những bước chân không mỏi, những đôi vai gánh nặng và ý chí sắt đá của tuổi trẻ đã góp phần quyết định vào việc bảo đảm hậu cần – yếu tố then chốt làm nên thắng lợi của chiến dịch.</p>
+
+                            <figure class="img-float-right" style="margin-top: 5px; margin-bottom: 20px; width: 50%;">
+                                <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT-1MjZRVQHOGkDjCRdYYSXXNbsyJ8vbirs1g&s" alt="Bác Hồ thăm bộ đội Điện Biên Phủ" style="height: auto; aspect-ratio: 16/9;">
+                                <figcaption style="font-size: 0.85rem; color: #64748b; text-align: center; margin-top: 8px; font-style: italic; line-height: 1.5;">Chủ tịch Hồ Chí Minh đến thăm và nói chuyện với một số đơn vị bộ đội tham gia Chiến dịch Điện Biên Phủ (Nguồn: Ảnh tư liệu TTXVN)</figcaption>
+                            </figure>
+
+                            <p>Chiến thắng Điện Biên Phủ không chỉ là thắng lợi quân sự vang dội mà còn là biểu tượng rực rỡ của sức mạnh đoàn kết toàn dân tộc, trong đó có sự hy sinh, cống hiến to lớn của thế hệ thanh niên. Chiến thắng ấy đã kết thúc chín năm kháng chiến trường kỳ chống thực dân Pháp, buộc kẻ thù phải ký Hiệp định Genève, chấm dứt chiến tranh ở Đông Dương. Đồng thời, sự kiện lịch sử này đã mở ra một thời kỳ mới cho cách mạng Việt Nam, thời kỳ xây dựng chủ nghĩa xã hội ở miền Bắc và tiếp tục đấu tranh giải phóng miền Nam, thống nhất đất nước. Hình ảnh người thanh niên trong chiến dịch Điện Biên Phủ vì thế mãi mãi trở thành biểu tượng của lòng dũng cảm, tinh thần hy sinh và khát vọng độc lập của dân tộc Việt Nam.</p>
+                            <div style="clear: both;"></div>
+
+                            <h4 style="color: var(--primary-blue); font-weight: 700; font-size: 1.1rem; margin-top: 2rem; margin-bottom: 0.8rem;">4.5. Thanh niên xây dựng miền Bắc sau hoà bình (1954–1956)</h4>
+                            <p>Sau Hiệp định Genève năm 1954, miền Bắc bước vào thời kỳ hòa bình, mở ra một chặng đường lịch sử mới: xây dựng chủ nghĩa xã hội và khôi phục đất nước sau nhiều năm chiến tranh tàn phá. Trong bối cảnh ấy, thanh niên Việt Nam lại tiếp tục khẳng định vai trò tiên phong của mình khi chuyển từ nhiệm vụ chiến đấu sang nhiệm vụ lao động, sản xuất và kiến thiết quê hương. Nếu trong chiến tranh họ là những người cầm súng nơi tiền tuyến, thì trong hòa bình, họ trở thành lực lượng xung kích trên mặt trận kinh tế, văn hóa và xã hội.</p>
+                            <p>Hàng vạn thanh niên đã hăng hái tham gia các phong trào khôi phục kinh tế, cải tạo ruộng đất, tăng gia sản xuất, phát triển nông nghiệp và công nghiệp. Từ đồng ruộng, công trường đến nhà máy, đâu đâu cũng có dấu chân của tuổi trẻ đang miệt mài lao động với tinh thần trách nhiệm và niềm tin vào tương lai tươi sáng của đất nước. Thanh niên còn góp sức xây dựng các công trình giao thông, cầu đường, nhà máy, trường học, bệnh viện, những nền móng quan trọng cho sự phát triển lâu dài của miền Bắc.</p>
+                            <p>Đây chính là bước chuyển lịch sử đầy ý nghĩa: từ thế hệ thanh niên kháng chiến bước sang thế hệ thanh niên xây dựng đất nước. Dù trong chiến tranh hay hòa bình, tuổi trẻ Việt Nam vẫn luôn giữ vững tinh thần xung kích, sáng tạo và sẵn sàng cống vững, góp phần đặt nền móng cho sự phát triển của Tổ quốc trong những giai đoạn tiếp theo.</p>
+                        </div>
+
+                        <div class="info-card">
+                            <div class="stats-grid">
+                                <div class="stat-box">
+                                    <i class="ph ph-flag-banner"></i>
+                                    <div>1945<br><span>Tổng khởi nghĩa</span></div>
+                                </div>
+                                <div class="stat-box">
+                                    <i class="ph ph-mountains"></i>
+                                    <div>1954<br><span>Chiến dịch ĐBP</span></div>
+                                </div>
+                                <div class="stat-box">
+                                    <i class="ph ph-hammer"></i>
+                                    <div>HÒA BÌNH<br><span>Kiến thiết miền Bắc</span></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="timeline-panel" id="doan-5">
+                        <h2 class="timeline-title">Đoàn Thanh niên Lao động Việt Nam</h2>
+                        <div class="timeline-date">10/1956 – 1970</div>
+                        
+                        <div class="editorial-content">
+                            <p><span class="dropcap">T</span>ừ ngày 25/10/1956, tổ chức Đoàn chính thức mang tên Đoàn Thanh niên Lao động Việt Nam, đánh dấu một bước chuyển quan trọng phù hợp với yêu cầu của cách mạng trong giai đoạn mới. Sau Hiệp định Genève, đất nước tạm thời bị chia cắt thành hai miền với hai nhiệm vụ chiến lược khác nhau: miền Bắc bước vào công cuộc xây dựng chủ nghĩa xã hội, trở thành hậu phương lớn của cả nước; trong khi miền Nam tiếp tục cuộc đấu tranh gian khổ nhằm giải phóng dân tộc và thống nhất Tổ quốc. Trong bối cảnh đó, việc đổi tên tổ chức không chỉ mang ý nghĩa về mặt hình thức mà còn thể hiện rõ định hướng hoạt động và trách nhiệm lịch sử của thanh niên Việt Nam trước vận mệnh dân tộc.</p>
+                            
+                            <figure class="img-float-right" style="margin-top: 5px; margin-bottom: 20px; width: 45%;">
+                                <img src="https://file3.qdnd.vn/data/images/0/2022/03/23/thicuc_la/hochiminhvoithanhnien.jpg?dpi=150&quality=100&w=870" alt="Bác Hồ với thanh niên Việt Nam" style="height: auto; aspect-ratio: 4/3;">
+                                <figcaption style="font-size: 0.85rem; color: #64748b; text-align: center; margin-top: 8px; font-style: italic; line-height: 1.5;">Bác Hồ với thanh niên Việt Nam (Nguồn: Ảnh tư liệu)</figcaption>
+                            </figure>
+
+                            <p>Dưới ngọn cờ của Đoàn Thanh niên Lao động Việt Nam, tuổi trẻ cả nước được tập hợp, giáo dục và rèn luyện để vừa hăng hái lao động sản xuất, xây dựng miền Bắc ngày càng vững mạnh, vừa sẵn sàng chi viện sức người, sức của cho miền Nam ruột thịt. Thanh niên trở thành lực lượng xung kích trên mọi mặt trận: từ công trường, nhà máy, nông trường, lớp học cho đến chiến trường ác liệt. Tinh thần “đâu cần thanh niên có, đâu khó có thanh niên” lan tỏa mạnh mẽ, khơi dậy ý chí cống hiến và trách nhiệm của thế hệ trẻ đối với sự nghiệp cách mạng.</p>
+                            <p>Giai đoạn này đã khẳng định rõ vị trí của thanh niên như một lực lượng nòng cốt trong cả xây dựng và bảo vệ Tổ quốc. Dù ở hậu phương hay tiền tuyến, tuổi trẻ Việt Nam vẫn luôn sẵn sàng dấn thân, góp phần làm nên sức mạnh to lớn của dân tộc trong cuộc đấu tranh vì độc lập, tự do và thống nhất đất nước.</p>
+                            <div style="clear: both;"></div>
+
+                            <h4 style="color: var(--primary-blue); font-weight: 700; font-size: 1.1rem; margin-top: 2rem; margin-bottom: 0.8rem;">5.1 Đại hội Đoàn toàn quốc lần II (1956)</h4>
+                            <p>Đại hội Đoàn toàn quốc lần II ngày 25/10/1956 đánh dấu một bước ngoặt quan trọng trong lịch sử phong trào thanh niên Việt Nam. Tại Đại hội này, tổ chức Đoàn chính thức được đổi tên thành Đoàn Thanh niên Lao động Việt Nam, thể hiện rõ định hướng hoạt động phù hợp với nhiệm vụ cách mạng trong giai đoạn mới của đất nước. Đại hội đã xác định những nhiệm vụ lịch sử to lớn mà thế hệ trẻ cần gánh vác trong bối cảnh Tổ quốc tạm thời bị chia cắt: miền Bắc bước vào công cuộc xây dựng chủ nghĩa xã hội, còn miền Nam tiếp tục đấu tranh giải phóng dân tộc và thống nhất đất nước.</p>
+                            
+                            <figure class="img-float-left" style="margin-top: 5px; margin-bottom: 20px; width: 50%;">
+                                <img src="https://i.postimg.cc/Z56ngX8j/image.png" alt="Đại hội Đoàn toàn quốc lần II" style="height: auto; aspect-ratio: 4/3;">
+                                <figcaption style="font-size: 0.85rem; color: #64748b; text-align: center; margin-top: 8px; font-style: italic; line-height: 1.5;">Các đại biểu dự Đại hội Đoàn Thanh niên lao động toàn quốc lần II biểu quyết nhất trí Nghị quyết Đại hội tháng 11 - 1956<br>(Nguồn: NHÂN VẬT - SỰ KIỆN CHUYÊN TRANG TƯ LIỆU CỦA THÔNG TẤN XÃ VIỆT NAM)</figcaption>
+                            </figure>
+
+                            <p>Khẩu hiệu nổi tiếng “Đâu cần thanh niên có – đâu khó có thanh niên” vang lên như lời hiệu triệu mạnh mẽ, khơi dậy tinh thần xung kích, tình nguyện và ý chí cống hiến của tuổi trẻ. Thanh niên được xác định là lực lượng tiên phong trong xây dựng miền Bắc xã hội chủ nghĩa thông qua lao động sản xuất, học tập, nghiên cứu khoa học và phát triển kinh tế – xã hội. Đồng thời, họ cũng là nguồn sức mạnh to lớn chi viện cho miền Nam, sẵn sàng lên đường làm nghĩa vụ bảo vệ Tổ quốc khi cần. Đại hội đã mở ra một giai đoạn mới, nơi tuổi trẻ Việt Nam tiếp tục khẳng định vai trò nòng cốt của mình trên cả hai mặt trận: xây dựng và bảo vệ đất nước.</p>
+                            <div style="clear: both;"></div>
+
+                            <h4 style="color: var(--primary-blue); font-weight: 700; font-size: 1.1rem; margin-top: 2rem; margin-bottom: 0.8rem;">5.2. Phong trào “Ba sẵn sàng” (1965)</h4>
+                            <p>Năm 1965, khi đế quốc Mỹ mở rộng chiến tranh ra miền Bắc, đất nước bước vào giai đoạn thử thách vô cùng khốc liệt. Trước yêu cầu cấp bách của Tổ quốc, phong trào “Ba sẵn sàng” đã ra đời và nhanh chóng lan tỏa mạnh mẽ trong thanh niên cả nước. Lời kêu gọi “sẵn sàng chiến đấu, sẵn sàng nhập ngũ, sẵn sàng đi bất cứ nơi đâu Tổ quốc cần” không chỉ là khẩu hiệu mà trở thành lời thề thiêng liêng của thế hệ trẻ. Hàng triệu thanh niên đã gác lại ước mơ cá nhân, rời giảng đường, nhà máy, ruộng đồng để khoác ba lô lên đường ra trận, tình nguyện trở thành những người lính, thanh niên xung phong, dân công hỏa tuyến nơi tuyến lửa.</p>
+                            <p>Phong trào “Ba sẵn sàng” đã thổi bùng ngọn lửa yêu nước và tinh thần trách nhiệm trong trái kế trẻ, biến ý chí thành hành động cụ thể trên khắp mọi miền. Những đoàn quân nối dài lên đường nhập ngũ, những lá đơn tình nguyện viết bằng máu, những buổi tiễn đưa đầy xúc động đã trở thành hình ảnh quen thuộc của hậu phương miền Bắc trong những năm tháng chiến tranh. Chính từ phong trào này đã hình thành nên một thế hệ thanh niên anh hùng thời chống Mỹ – thế hệ sống có lý tưởng, dám hy sinh, dám cống hiến và sẵn sàng đặt lợi ích của Tổ quốc lên trên tất cả. Phong trào “Ba sẵn sàng” vì thế không chỉ góp phần quan trọng vào thắng lợi của cuộc kháng chiến mà còn trở thành biểu tượng rực rỡ của tinh thần yêu nước và trách nhiệm của tuổi trẻ Việt Nam.</p>
+
+                            <div class="article-image-row" style="margin-top: 25px; margin-bottom: 25px; align-items: start;">
+                                <figure style="margin: 0; display: flex; flex-direction: column;">
+                                    <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcR29UKRE0m2fivoN3JA-vGjkkYQoPTHy7Dz1g&s" alt="Phong trào Ba sẵn sàng Hà Tây" style="height: auto; aspect-ratio: 4/3;">
+                                    <figcaption style="font-size: 0.85rem; color: #64748b; text-align: center; margin-top: 10px; font-style: italic; line-height: 1.5;">Hưởng ứng phong trào Thanh niên Ba sẵn sàng, thanh niên Hà Tây nô nức lên đường chiến đấu (tháng 8/1964), sau khi Mỹ mở rộng đánh phá bằng không quân ra miền Bắc trong kháng chiến chống Mỹ, cứu nước. (Nguồn: Kim Hùng/TTXVN)</figcaption>
+                                </figure>
+                                <figure style="margin: 0; display: flex; flex-direction: column;">
+                                    <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSzhdJ_eiVqlBNURZ8hwXouY0zXP-CiO22wdg&s" alt="Phong trào Ba sẵn sàng Thái Bình" style="height: auto; aspect-ratio: 4/3;">
+                                    <figcaption style="font-size: 0.85rem; color: #64748b; text-align: center; margin-top: 10px; font-style: italic; line-height: 1.5;">Phong trào Thanh niên Ba sẵn sàng của Thái Bình: Người lên đường chiến đấu, người ở lại hậu phương thi đua sản xuất dưới bom đạn, (tháng 8/1964), sau khi Mỹ mở rộng đánh phá bằng không quân ra miền Bắc trong kháng chiến chống Mỹ, cứu nước. (Nguồn: Tư liệu TTXVN)</figcaption>
+                                </figure>
+                            </div>
+
+                            <h4 style="color: var(--primary-blue); font-weight: 700; font-size: 1.1rem; margin-top: 2rem; margin-bottom: 0.8rem;">5.3. Phong trào “Năm xung phong” miền Nam</h4>
+                            <figure class="img-float-left" style="margin-top: 5px; margin-bottom: 20px; width: 45%;">
+                                <img src="https://i.postimg.cc/9fWmk0FZ/image.png" alt="Phong trào Năm xung phong" style="height: auto; aspect-ratio: 4/3;">
+                                <figcaption style="font-size: 0.85rem; color: #64748b; text-align: center; margin-top: 8px; font-style: italic; line-height: 1.5;">Đội Thanh niên xung phong 198 Thành Đông. Hành quân phục vụ chiến dịch Phước Long - Đồng Nai. (Nguồn: Cựu Thanh niên xung phong Việt Nam)</figcaption>
+                            </figure>
+
+                            <p>Tại miền Nam, trong những năm tháng chiến tranh ác liệt, thanh niên đã phát động phong trào “Năm xung phong” như một lời tuyên thệ mạnh mẽ của tuổi trẻ trước vận mệnh dân tộc. Phong trào kêu gọi thanh niên xung phong diệt Mỹ, xung phong tòng quân, xung phong sản xuất, xung phong phục vụ chiến đấu và xung phong đấu tranh chính trị. Đây không chỉ là những khẩu hiệu mà đã trở thành hành động cụ thể, lan tỏa sâu rộng trong mọi tầng lớp thanh niên miền Nam, từ thành thị đến nông thôn, từ hậu phương đến tiền tuyến.</p>
+                            <p>Hàng vạn thanh niên đã tình nguyện gia nhập lực lượng vũ trang, tham gia các đội du kích, lực lượng giao liên, thanh niên xung phong và các tổ chức đấu tranh chính trị. Trong điều kiện chiến tranh khốc liệt, họ vừa chiến đấu, vừa lao động sản xuất, vừa tham gia đấu tranh chính trị, góp phần tạo nên thế trận chiến tranh nhân dân rộng khắp. Phong trào “Năm xung phong” đã khơi dậy tinh thần yêu nước, ý chí quật cường và sức mạnh đoàn kết của tuổi trẻ miền Nam, góp phần huy động toàn dân tham gia kháng chiến, tạo nên sức mạnh tổng hợp to lớn trong cuộc đấu tranh chống Mỹ cứu nước. Đây là minh chứng tiêu biểu cho vai trò tiên phong, dũng cảm và đầy nhiệt huyết của thanh niên Việt Nam trong những năm tháng lịch sử đầy gian khổ nhưng vô cùng hào hùng.</p>
+                            <div style="clear: both;"></div>
+                        </div>
+
+                        <div class="info-card">
+                            <div class="stats-grid">
+                                <div class="stat-box">
+                                    <i class="ph ph-star"></i>
+                                    <div>MIỀN BẮC<br><span>Phong trào Ba Sẵn Sàng</span></div>
+                                </div>
+                                <div class="stat-box">
+                                    <i class="ph ph-shooting-star"></i>
+                                    <div>MIỀN NAM<br><span>Phong trào Năm Xung Phong</span></div>
+                                </div>
+                                <div class="stat-box">
+                                    <i class="ph ph-megaphone"></i>
+                                    <div>TINH THẦN<br><span>Đâu cần thanh niên có</span></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="timeline-panel" id="doan-6">
+                        <h2 class="timeline-title">Đoàn Thanh niên Lao động Hồ Chí Minh</h2>
+                        <div class="timeline-date">2/1970 – 11/1976</div>
+                        
+                        <div class="editorial-content">
+                            <figure class="img-float-right" style="margin-top: 5px; margin-bottom: 20px; width: 45%;">
+                                <img src="https://encrypted-tbn1.gstatic.com/images?q=tbn:ANd9GcTeItwJP_-BeAwbtH3spMJm8U6T9lD0WxvWdOQQ86nIDpfIByiQ" alt="Tòng quân 1972" style="height: auto; aspect-ratio: 4/3;">
+                                <figcaption style="font-size: 0.85rem; color: #64748b; text-align: center; margin-top: 8px; font-style: italic; line-height: 1.5;">Thanh niên Thủ đô phấn khởi lên đường tòng quân chống Mỹ cứu nước năm 1972 (Nguồn: Thông tấn xã Việt Nam)</figcaption>
+                            </figure>
+
+                            <p><span class="dropcap">G</span>iai đoạn từ tháng 2 năm 1970 đến tháng 11 năm 1976 là thời kỳ mà tổ chức Đoàn gắn liền với những bước chuyển mình lớn lao của dân tộc: từ cuộc kháng chiến chống Mỹ cứu nước đến thắng lợi hoàn toàn và công cuộc xây dựng đất nước trong hòa bình. Trong bối cảnh lịch sử đầy biến động ấy, Đoàn Thanh niên đã không ngừng trưởng thành, khẳng định vai trò là lực lượng xung kích cách mạng của tuổi trẻ Việt Nam.</p>
+                            
+                            <p>Thực hiện Di chúc thiêng liêng của Bác, đáp ứng nguyện vọng của thế hệ trẻ và theo đề nghị của Đoàn Thanh niên lao động Việt Nam, nhân dịp kỷ niệm lần thứ 40 ngày thành lập Đảng (3-2-1930 – 3-2-1970), Ban Chấp hành Trung ương Đảng đã ra Nghị quyết cho Đoàn Thanh niên và đội thiếu niên, Đội Nhi đồng được mang tên Bác.</p>
+                            
+                            <blockquote class="article-quote" style="margin-top: 20px; margin-bottom: 20px;">
+                                Nghị quyết nêu rõ: “… Thể theo nguyện vọng của thế hệ trẻ nước ta và đề nghị của Đoàn Thanh niên lao động Việt Nam”. Chấp hành Trung ương Đảng Lao động Việt Nam Quyết định:
+                                <ul style="margin-top: 10px; margin-left: 20px;">
+                                    <li>Đoàn Thanh niên lao động Việt Nam nay là <strong>Đoàn Thanh niên lao động Hồ Chí Minh</strong></li>
+                                    <li>Đội Thiếu niên tiền phong Việt Nam nay là <strong>Đội Thiếu niên tiền phong Hồ Chí Minh</strong></li>
+                                    <li>Đội Nhi đồng Việt Nam nay là <strong>Đội Nhi đồng Hồ Chí Minh</strong>.</li>
+                                </ul>
+                            </blockquote>
+                            
+                            <p>Tổ chức Đoàn và tổ chức đội được mang tên Bác là vinh dự lớn lao, đồng thời là trách nhiệm nặng nề trước Tổ quốc và nhân dân. Đoàn ta được mang tên Bác Hồ càng làm rõ mục đích và tính chất của Đoàn là đội tiên phong chiến đấu của thanh niên, đi đầu phấn đấu cho lý tưởng cách mạng cao cả của Đảng và Bác Hồ là độc lập, dân tộc và chủ nghĩa xã hội.</p>
+                            
+                            <div style="clear: both;"></div>
+
+                            <p>Tháng 4-1975, chiến dịch Hồ Chí Minh lịch sử đã kết thúc thắng lợi, giải phóng hoàn toàn miền Nam.</p>
+
+                            <div class="article-image-row" style="margin-top: 25px; margin-bottom: 25px; align-items: start;">
+                                <figure style="margin: 0; display: flex; flex-direction: column;">
+                                    <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQzRjdTY6Lq5QWwFF8JpiZ9xh3VAO_7bI7F-w&s" alt="Kéo pháo Tây Nguyên" style="height: auto; aspect-ratio: 4/3;">
+                                    <figcaption style="font-size: 0.85rem; color: #64748b; text-align: center; margin-top: 10px; font-style: italic; line-height: 1.5;">Thanh niên các dân tộc Tây Nguyên cùng bộ đội kéo pháo để đánh chiếm các đỉnh cao ở Pleiku trong chiến dịch Tây Nguyên mở màn cuộc Tổng tiến công và nổi dậy mùa Xuân năm 1975 (Nguồn: Thông tấn xã Việt Nam)</figcaption>
+                                </figure>
+                                <figure style="margin: 0; display: flex; flex-direction: column;">
+                                    <img src="https://imghappyvietnam.vnanet.vn/MediaUpload/Org/2026/03/26/075015-vna_potal_95_nam_doan_tncs_ho_chi_minh_tuoi_tre_viet_nam_vung_buoc_duoi_co_dang__8661882.jpg" alt="Kinh tế mới" style="height: auto; aspect-ratio: 4/3;">
+                                    <figcaption style="font-size: 0.85rem; color: #64748b; text-align: center; margin-top: 10px; font-style: italic; line-height: 1.5;">Thanh niên Thành phố Hồ Chí Minh hăng hái lên đường đi xây dựng vùng kinh tế mới sau khi đất nước giành độc lập ngày 28/3/1976 (Nguồn: Thông tấn xã Việt Nam)</figcaption>
+                                </figure>
+                            </div>
+
+                            <p>Ngày 26/3/1976, Lễ kỷ niệm lần thứ 45 ngày thành lập Đoàn đã được tổ chức trọng thể tại Hà Nội. Tại Lễ kỷ niệm này, tổ chức Đoàn trong cả nước đã thống nhất mang tên chung là Đoàn Thanh Niên Lao động Hồ Chí Minh.</p>
+
+                            <p>Đến tháng 11 năm 1976, quá trình chuẩn bị về tổ chức và tư tưởng cơ bản hoàn tất, tạo tiền đề cho bước phát triển mới của Đoàn. Đây là giai đoạn chuyển tiếp quan trọng, dẫn tới việc chính thức mang tên Đoàn Thanh niên Cộng sản Hồ Chí Minh vào cuối năm 1976. Sự kiện này đánh dấu sự trưởng thành toàn diện của tổ chức Đoàn trong thời kỳ đất nước thống nhất và đi lên chủ nghĩa xã hội.</p>
+                            <div style="clear: both;"></div>
+                        </div>
+
+                        <div class="info-card">
+                            <div class="stats-grid">
+                                <div class="stat-box">
+                                    <i class="ph ph-medal"></i>
+                                    <div>VINH DỰ<br><span>Mang tên Bác (1970)</span></div>
+                                </div>
+                                <div class="stat-box">
+                                    <i class="ph ph-flag"></i>
+                                    <div>ĐẠI THẮNG<br><span>Giải phóng miền Nam (1975)</span></div>
+                                </div>
+                                <div class="stat-box">
+                                    <i class="ph ph-map-trifold"></i>
+                                    <div>HÒA BÌNH<br><span>Kiến thiết đất nước</span></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="timeline-panel" id="doan-7">
+                        <h2 class="timeline-title">Đoàn Thanh niên Cộng sản Hồ Chí Minh</h2>
+                        <div class="timeline-date">12/1976 – Nay</div>
+                        
+                        <div class="editorial-content">
+                            <p><span class="dropcap">Đ</span>ại hội lần thứ IV của Đảng họp từ ngày 14 đến 20-12-1976 tại Thủ đô Hà Nội đã quyết định đổi tên Đảng Lao động Việt Nam (2-1951) thành Đảng Cộng Sản Việt Nam và thể theo nguyện vọng của cán bộ, đoàn viên thanh niên cả nước, Đại hội Đảng lần thứ IV đã quyết định đổi tên Đoàn Thanh niên lao động Hồ Chí Minh (1970) thành: Đoàn Thanh niên cộng sản Hồ Chí Minh.</p>
+                            
+                            <blockquote class="article-quote" style="margin-top: 25px; margin-bottom: 25px;">
+                                Đại hội Đảng chỉ rõ nhiệm vụ của Đoàn và phong trào thanh niên trong giai đoạn mới là: “Đoàn Thanh niên cộng sản Hồ Chí Minh phải được xây dựng và củng cố vững mạnh về chính trị, tư tưởng và tổ chức, xứng đáng là trường học cộng sản chủ nghĩa của lớp người trẻ tuổi, là cánh tay đắc lực và đội hậu bị tin cậy của Đảng”.
+                            </blockquote>
+                            
+                            <p>Được mang tên Đoàn Thanh niên cộng sản Hồ Chí Minh là vinh dự và tự hào lớn của toàn thể cán bộ đoàn viên nước ta.</p>
+
+                            <div class="article-image-row" style="margin-top: 30px; margin-bottom: 15px; align-items: start;">
+                                <figure style="margin: 0; display: flex; flex-direction: column;">
+                                    <img src="https://images.hcmcpv.org.vn//Uploads/Image/28102022FBE485CA/28-10-2022TNXP_2.jpg" alt="Đồng chí Võ Văn Kiệt thăm TNXP" style="height: auto; aspect-ratio: 4/3;">
+                                    <figcaption style="font-size: 0.85rem; color: #64748b; text-align: center; margin-top: 10px; font-style: italic; line-height: 1.5;">Đồng chí Võ Văn Kiệt đến thăm và lao động với TNXP tại Kiên Giang năm 1979 (Nguồn: Cổng thông tin điện tử Thành ủy Thành phố Hồ Chí Minh)</figcaption>
+                                </figure>
+                                <figure style="margin: 0; display: flex; flex-direction: column;">
+                                    <img src="https://mediaen.vietnamplus.vn/images/608fec4c5cd0eb5ec93e608d0602445c2fab7b4c16f27e66894cb2cbbe4aba0e82206b10c26b6a8a8aece8d62801d760d2e29b60b91c5ae8e015cf83ad1c9cd3d7a4988d1780e2e8d25be116b5e0ff41f48785964b6b6142ba23252401cc5f0b8046a0d340036a8cfcd8a3badee2bef3/nearly-2000-young-volunteers-join-green-summer-campaign-2024-4840.jpg" alt="Thanh niên Cộng sản" style="height: auto; aspect-ratio: 4/3;">
+                                    <figcaption style="font-size: 0.85rem; color: #64748b; text-align: center; margin-top: 10px; font-style: italic; line-height: 1.5;">(Nguồn: Thông tấn xã Việt Nam)</figcaption>
+                                </figure>
+                            </div>
+                            
+                            <div style="clear: both;"></div>
+                        </div>
+
+                        <div class="info-card">
+                            <div class="stats-grid">
+                                <div class="stat-box">
+                                    <i class="ph ph-users-three"></i>
+                                    <div>VAI TRÒ<br><span>Đội hậu bị của Đảng</span></div>
+                                </div>
+                                <div class="stat-box">
+                                    <i class="ph ph-star"></i>
+                                    <div>SỨ MỆNH<br><span>Trường học XHCN</span></div>
+                                </div>
+                                <div class="stat-box">
+                                    <i class="ph ph-globe"></i>
+                                    <div>HIỆN TẠI<br><span>Đổi mới & Phát triển</span></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+
+            <aside class="sidebar reveal reveal-delay-2">
+                <div class="message-card">
+                    <h3><i class="ph ph-chat-centered-text"></i> Lời nhắn gửi</h3>
+                    <p style="font-size:0.875rem; color:#64748b; margin-bottom:4px;">
+                        Nơi tập hợp những lời nhắn gửi, chúc mừng từ các thế hệ cán bộ Đoàn...
+                    </p>
+                    
+                    <div class="message-stats">
+                        <div class="stat-row">
+                            <div class="stat-label"><i class="ph ph-eye"></i>TRUY CẬP MỚI</div>
+                            <strong>2.024</strong>
+                        </div>
+                        <div class="stat-row">
+                            <div class="stat-label"><i class="ph ph-users"></i>SỐ TÀI KHOẢN</div>
+                            <strong>630</strong>
+                        </div>
+                        <div class="stat-row">
+                            <div class="stat-label"><i class="ph ph-article"></i>SỐ BÀI VIẾT</div>
+                            <strong>157</strong>
+                        </div>
+                    </div>
+                    
+                    <div style="width: 100%; border-radius: 8px; overflow: hidden; background: #000; display: flex; justify-content: center; align-items: center;">
+                        <iframe src="https://www.facebook.com/plugins/video.php?height=195&href=https%3A%2F%2Fwww.facebook.com%2Fwatch%2F%3Fv%3D369466448683111&show_text=false&width=300&t=0" 
+                                width="300" 
+                                height="195" 
+                                style="border:none; overflow:hidden; max-width: 100%;" 
+                                scrolling="no" 
+                                frameborder="0" 
+                                allowfullscreen="true" 
+                                allow="autoplay; clipboard-write; encrypted-media; picture-in-picture; web-share">
+                        </iframe>
+                    </div>
+                </div>
+            </aside>
+
+        </div> 
+        
+        <div class="container">
+            <div class="home-pillars reveal">
+                <div class="section-heading">
+                    <h2>Dấu ấn Phong trào</h2>
+                    <p>Môi trường rèn luyện lý tưởng, khơi dậy khát vọng cống hiến của tuổi trẻ Nhân văn</p>
+                </div>
+                <div class="pillar-grid">
+                    <div class="pillar-card">
+                        <div class="pillar-icon"><i class="ph-fill ph-hand-heart"></i></div>
+                        <h3>Tình nguyện vì cộng đồng</h3>
+                        <p>Hàng ngàn chiến sĩ áo xanh đã in dấu chân tình nguyện trên khắp các nẻo đường đất nước qua các chiến dịch Mùa Hè Xanh, Xuân Tình Nguyện...</p>
+                        <a href="phongtrao.html" class="pillar-link">Tìm hiểu thêm <i class="ph ph-arrow-right"></i></a>
+                    </div>
+                    <div class="pillar-card">
+                        <div class="pillar-icon"><i class="ph-fill ph-book-open"></i></div>
+                        <h3>Học tập & Sáng tạo</h3>
+                        <p>Thúc đẩy tinh thần nghiên cứu khoa học, bồi dưỡng chuyên môn nghiệp vụ và trang bị kỹ năng số vững vàng cho sinh viên hội nhập.</p>
+                        <a href="phongtrao.html" class="pillar-link">Tìm hiểu thêm <i class="ph ph-arrow-right"></i></a>
+                    </div>
+                    <div class="pillar-card">
+                        <div class="pillar-icon"><i class="ph-fill ph-star"></i></div>
+                        <h3>Phát triển kỹ năng</h3>
+                        <p>Hệ thống hàng chục câu lạc bộ, đội, nhóm trực thuộc là sân chơi văn hóa, văn nghệ, thể thao sôi nổi, rèn luyện kỹ năng mềm toàn diện.</p>
+                        <a href="phongtrao.html" class="pillar-link">Tìm hiểu thêm <i class="ph ph-arrow-right"></i></a>
+                    </div>
+                </div>
+            </div>
+
+            <div class="home-stats reveal">
+                <div class="section-heading">
+                    <h2>Những con số tự hào</h2>
+                    <p>Thành quả từ sự nỗ lực không ngừng nghỉ của các thế hệ cán bộ, đoàn viên thanh niên</p>
+                </div>
+                <div class="stats-grid-main">
+                    <div class="stat-item">
+                        <h3><span data-count="30">30</span></h3>
+                        <p>Năm Phát Triển</p>
+                    </div>
+                    <div class="stat-item">
+                        <h3><span data-count="12">12</span></h3>
+                        <p>Nhiệm Kỳ Đại Hội</p>
+                    </div>
+                    <div class="stat-item">
+                        <h3><span data-count="45">45</span>+</h3>
+                        <p>CLB - Đội - Nhóm</p>
+                    </div>
+                    <div class="stat-item">
+                        <h3><span data-count="100">100</span>+</h3>
+                        <p>Bằng Khen & Giải Thưởng</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="home-cta reveal">
+                <div class="cta-content">
+                    <h2>Cùng viết tiếp bản hùng ca tuổi trẻ</h2>
+                    <p>30 năm là một hành trình dài, và mỗi sinh viên là một mảnh ghép quan trọng tạo nên bức tranh rực rỡ ấy. Khung trời đại học có thể khép lại, nhưng ký ức dưới mái nhà chung Đoàn trường sẽ mãi còn vang vọng.</p>
+                    <div class="cta-buttons">
+                        <a href="gockyuc.html" class="btn btn-white">Gửi lời nhắn ngay</a>
+                        <a href="thanhtich.html" class="btn btn-outline-white">Xem sổ vàng thành tích</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <footer class="footer container">
+        <div class="footer-grid reveal">
+            <div class="footer-col">
+                <h5>TRƯỜNG ĐH KHXH&NV, ĐHQG-HCM</h5>
+                <div class="info-line">
+                    <i class="ph ph-buildings"></i>
+                    <div>Đơn vị quản lý:<br>Đoàn trường ĐH KHXH&NV, ĐHQG-HCM</div>
+                </div>
+            </div>
+            <div class="footer-col">
+                <h5>Liên hệ</h5>
+                <div class="info-line">
+                    <i class="ph ph-map-pin"></i>
+                    <div>10-12 Đinh Tiên Hoàng, Phường Bến Nghé, Quận 1, TP. HCM</div>
+                </div>
+                <div class="info-line">
+                    <i class="ph ph-envelope"></i>
+                    <div><a href="mailto:doantncs@hcmussh.edu.vn">doantncs@hcmussh.edu.vn</a></div>
+                </div>
+            </div>
+            <div class="footer-col" style="display:flex; gap:40px;">
+                <div>
+                    <h5>Liên kết</h5>
+                    <a href="#">Đoàn trường</a>
+                    <a href="index.html">Trang chủ</a>
+                </div>
+                <div>
+                    <h5 style="visibility:hidden;">Links</h5>
+                    <a href="#">Thông tin số</a>
+                </div>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <div>© 2024 Đoàn TNCS Hồ Chí Minh – Trường Đại học Khoa học Xã hội và Nhân văn</div>
+            <div>BẢO MẬT THÔNG TIN | ĐIỀU KHOẢN SỬ DỤNG</div>
+        </div>
+    </footer>
+
+    <button id="back-to-top" aria-label="Lên đầu trang"><i class="ph ph-arrow-up"></i></button>
+
+    <script src="shared.js"></script>
+
+    <script>
+        const navWrapper = document.getElementById('navbar-wrapper');
+        window.addEventListener('scroll', () => { navWrapper.classList.toggle('scrolled', window.scrollY > 10); }, { passive: true });
+
+        const timelineNodes = document.querySelectorAll('.timeline-nav-node');
+        const timelinePanels = document.querySelectorAll('.timeline-panel');
+
+        function activatePanel(targetId) {
+            timelineNodes.forEach(n => n.classList.remove('active'));
+            timelinePanels.forEach(p => p.classList.remove('active'));
+            const targetPanel = document.getElementById(targetId);
+            const targetNode  = document.querySelector(`.timeline-nav-node[data-target="${targetId}"]`);
+            if (targetPanel) targetPanel.classList.add('active');
+            if (targetNode)  targetNode.classList.add('active');
+        }
+
+        timelineNodes.forEach(node => {
+            node.addEventListener('click', () => { activatePanel(node.dataset.target); });
+        });
+
+        const backToTop = document.getElementById('back-to-top');
+        if (backToTop) {
+            window.addEventListener('scroll', () => { backToTop.classList.toggle('visible', window.scrollY > 400); }, { passive: true });
+            backToTop.addEventListener('click', () => { window.scrollTo({ top: 0, behavior: 'smooth' }); });
+        }
+    </script>
+</body>
+</html>
